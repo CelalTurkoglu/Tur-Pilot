@@ -1,7 +1,7 @@
 {
-  "name": "turpro-landing",
+  "name": "turpilot-landing",
   "version": "1.0.0",
-  "description": "TurPro Landing Page with Contact Form",
+  "description": "TurPilot Landing Page with Contact Form",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

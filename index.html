@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProTur - Acentenizin Hem Vitrini Hem Beyni | Tur Yönetim Yazılımı</title>
+    <title>TurPilot - Acentenizin Hem Vitrini Hem Beyni | Tur Yönetim Yazılımı</title>
     <meta name="description"
         content="Sadece yönetim paneli değil; müşterilerinizin online rezervasyon yapabileceği modern web siteniz ve tüm operasyonu yönettiğiniz admin paneli tek pakette.">
     <meta name="keywords"
@@ -31,12 +31,13 @@
                 <span class="logo-icon">
                     <i data-lucide="plane" class="logo-plane"></i>
                 </span>
-                <span class="logo-text">ProTur</span>
+                <span class="logo-text">TurPilot</span>
             </a>
 
             <ul class="nav-links" id="navLinks">
                 <li><a href="#dual-power">Ne Sunuyoruz?</a></li>
                 <li><a href="#features">Özellikler</a></li>
+                <li><a href="#pricing">Fiyatlandırma</a></li>
                 <li><a href="#benefits">Faydalar</a></li>
                 <li><a href="#contact" class="nav-cta">Sunum Talep Et</a></li>
             </ul>
@@ -105,10 +106,10 @@
                         <div class="frame-dots">
                             <span></span><span></span><span></span>
                         </div>
-                        <div class="frame-title">protur-acenteniz.com</div>
+                        <div class="frame-title">turpilot-acenteniz.com</div>
                     </div>
                     <div class="frame-content">
-                        <img src="ss4.png" alt="ProTur Public Site - Acente Web Sitesi" class="screenshot-img">
+                        <img src="ss4.png" alt="TurPilot Public Site - Acente Web Sitesi" class="screenshot-img">
                     </div>
                 </div>
                 <div class="hero-caption">
@@ -199,10 +200,10 @@
                                         <div class="frame-dots">
                                             <span></span><span></span><span></span>
                                         </div>
-                                        <div class="frame-title">protur-acenteniz.com/turlar</div>
+                                        <div class="frame-title">turpilot-acenteniz.com/turlar</div>
                                     </div>
                                     <div class="frame-content">
-                                        <img src="ss1.png" alt="ProTur Turlar Sayfası" class="screenshot-img">
+                                        <img src="ss1.png" alt="TurPilot Turlar Sayfası" class="screenshot-img">
                                     </div>
                                 </div>
                             </div>
@@ -259,10 +260,10 @@
                                         <div class="frame-dots">
                                             <span></span><span></span><span></span>
                                         </div>
-                                        <div class="frame-title">admin.protur.com.tr</div>
+                                        <div class="frame-title">admin.turpilot.com.tr</div>
                                     </div>
                                     <div class="frame-content">
-                                        <img src="ss2.png" alt="ProTur Admin Dashboard" class="screenshot-img">
+                                        <img src="ss2.png" alt="TurPilot Admin Dashboard" class="screenshot-img">
                                     </div>
                                 </div>
                             </div>
@@ -308,7 +309,7 @@
                         <i data-lucide="grid-3x3"></i>
                     </div>
                     <div class="feature-timeline-content">
-                        <h3>Sürükle-Bırak Oda Yönetimi</h3>
+                        <h3>Oda - Otel Yönetimi</h3>
                         <p>Kağıt kalemle otel oda listesi yapmayın. Yolcuları ekranda <strong>otel odalarına sürükleyip
                                 bırakın</strong>, listeyi tek tuşla otele PDF olarak atın. Twin, Double, Single, French
                             Bed... Hepsi renk kodlu.</p>
@@ -383,13 +384,476 @@
                         <div class="frame-dots">
                             <span></span><span></span><span></span>
                         </div>
-                        <div class="frame-title">admin.protur.com.tr/seferler</div>
+                        <div class="frame-title">admin.turpilot.com.tr/seferler</div>
                     </div>
                     <div class="frame-content">
-                        <img src="ss3.png" alt="ProTur Seferler Ekranı" class="screenshot-img">
+                        <img src="ss3.png" alt="TurPilot Seferler Ekranı" class="screenshot-img">
                     </div>
                 </div>
                 <p class="showcase-caption">Tüm turlarınızı tek ekrandan görün, yönetin, takip edin.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">
+                    <i data-lucide="tag"></i>
+                    Şeffaf Fiyatlandırma
+                </span>
+                <h2 class="section-title">Acentenize Uygun <span class="gradient-text">Paketi Seçin</span></h2>
+                <p class="section-description">Tek seferlik ödeme, aylık abonelik yok. İhtiyacınıza göre başlayın, büyüdükçe yükseltin.</p>
+            </div>
+
+            <!-- Maintenance Toggle -->
+            <div class="pricing-toggle-wrapper reveal-up">
+                <label class="pricing-toggle">
+                    <input type="checkbox" id="maintenanceToggle">
+                    <span class="toggle-slider"></span>
+                    <span class="toggle-label">Yıllık Bakım Ücretlerini Göster</span>
+                    <span class="toggle-info" data-tooltip="Bakım ücreti; sunucu, SSL sertifikası, güvenlik güncellemeleri ve teknik desteği kapsar.">
+                        <i data-lucide="info"></i>
+                    </span>
+                </label>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="pricing-cards">
+                <!-- Entry Package -->
+                <div class="pricing-card entry reveal-up" data-delay="0">
+                    <div class="pricing-card-header">
+                        <span class="pricing-tier">Başlangıç</span>
+                        <h3 class="pricing-name">Giriş Paketi</h3>
+                        <p class="pricing-tagline">Küçük ölçekli operasyonlar için temel çözüm</p>
+                    </div>
+
+                    <div class="pricing-card-body">
+                        <div class="pricing-price">
+                            <span class="price-amount">990€</span>
+                            <span class="price-suffix">+ KDV</span>
+                        </div>
+                        <div class="pricing-maintenance" data-visible="false">
+                            <i data-lucide="calendar"></i>
+                            <span>~90-100€ / Yıl Bakım</span>
+                        </div>
+
+                        <ul class="pricing-features">
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Temel Admin Paneli</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Tur & Yolcu Yönetimi</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Basit Raporlama</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>PDF Çıktılar</span>
+                            </li>
+                            <li class="disabled">
+                                <i data-lucide="x"></i>
+                                <span>B2C Web Sitesi</span>
+                            </li>
+                            <li class="disabled">
+                                <i data-lucide="x"></i>
+                                <span>Gelişmiş Finans Modülü</span>
+                            </li>
+                        </ul>
+
+                        <!-- Warning Box -->
+                        <div class="pricing-warning">
+                            <i data-lucide="alert-triangle"></i>
+                            <div>
+                                <strong>Geliştirilemez Altyapı</strong>
+                                <p>HTML/CSS tabanlı eski teknoloji. Silver/Gold'a yükseltme yapılamaz, veri aktarımı desteklenmez.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card-footer">
+                        <a href="#contact" class="btn btn-secondary btn-full">
+                            <i data-lucide="message-circle"></i>
+                            Bilgi Al
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Silver Package - Recommended -->
+                <div class="pricing-card silver featured reveal-up" data-delay="1">
+                    <div class="pricing-badge-popular">
+                        <i data-lucide="star"></i>
+                        En Çok Tercih Edilen
+                    </div>
+
+                    <div class="pricing-card-header">
+                        <span class="pricing-tier">Profesyonel</span>
+                        <h3 class="pricing-name">Silver Paket</h3>
+                        <p class="pricing-tagline">Büyüme odaklı acenteler için ideal seçim</p>
+                    </div>
+
+                    <div class="pricing-card-body">
+                        <div class="pricing-price">
+                            <span class="price-amount">1990€</span>
+                            <span class="price-suffix">+ KDV</span>
+                        </div>
+                        <div class="pricing-maintenance" data-visible="false">
+                            <i data-lucide="calendar"></i>
+                            <span>~150€ / Yıl Bakım</span>
+                        </div>
+
+                        <ul class="pricing-features">
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Modern React Admin Paneli</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Tam Tur & Yolcu Yönetimi</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Gelişmiş Raporlama & Analitik</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Finans & Kasa Modülü</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Bayi/Komisyon Sistemi</span>
+                            </li>
+                            <li class="disabled">
+                                <i data-lucide="x"></i>
+                                <span>B2C Web Sitesi</span>
+                            </li>
+                        </ul>
+
+                        <!-- Upgrade Notice -->
+                        <div class="pricing-upgrade">
+                            <i data-lucide="arrow-up-circle"></i>
+                            <div>
+                                <strong>Yükseltilebilir Altyapı</strong>
+                                <p>Dilediğiniz zaman fark ödeyerek Gold'a geçiş yapabilirsiniz. Verileriniz korunur.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card-footer">
+                        <a href="#contact" class="btn btn-primary btn-full">
+                            <i data-lucide="rocket"></i>
+                            Hemen Başla
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Gold Package -->
+                <div class="pricing-card gold reveal-up" data-delay="2">
+                    <div class="pricing-badge-premium">
+                        <i data-lucide="crown"></i>
+                        Tam Paket
+                    </div>
+
+                    <div class="pricing-card-header">
+                        <span class="pricing-tier">Kurumsal</span>
+                        <h3 class="pricing-name">Gold Paket</h3>
+                        <p class="pricing-tagline">Online satış yapmak isteyen lider acenteler için</p>
+                    </div>
+
+                    <div class="pricing-card-body">
+                        <div class="pricing-price">
+                            <span class="price-amount">2990€</span>
+                            <span class="price-suffix">+ KDV</span>
+                        </div>
+                        <div class="pricing-maintenance" data-visible="false">
+                            <i data-lucide="calendar"></i>
+                            <span>~250€ / Yıl Bakım</span>
+                        </div>
+
+                        <ul class="pricing-features">
+                            <li class="highlight">
+                                <i data-lucide="check"></i>
+                                <span>Silver'daki Her Şey +</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>B2C Müşteri Web Sitesi</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Online Tur Satış & Rezervasyon</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Müşteri Üyelik Sistemi</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>SEO & Mobil Uyumluluk</span>
+                            </li>
+                            <li>
+                                <i data-lucide="check"></i>
+                                <span>Özel Alan Adı Desteği</span>
+                            </li>
+                        </ul>
+
+                        <!-- Premium Notice -->
+                        <div class="pricing-premium">
+                            <i data-lucide="zap"></i>
+                            <div>
+                                <strong>Tam Entegrasyon</strong>
+                                <p>Admin + B2C site entegre çalışır. Eklediğiniz turlar anında yayında.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card-footer">
+                        <a href="#contact" class="btn btn-gold btn-full">
+                            <i data-lucide="sparkles"></i>
+                            Gold'a Geç
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table -->
+
+            <!-- Paket Görselleri Slider -->
+            <div class="package-gallery reveal-up">
+                <h3 class="pg-title">
+                    <i data-lucide="images"></i>
+                    Paket Ekran Görüntüleri
+                </h3>
+                <p class="pg-description">Seçtiğiniz paketin yönetim paneli ve arayüz görsellerini inceleyin.</p>
+
+                <div class="pg-tabs">
+                    <button class="pg-tab" data-plan="entry">Giriş</button>
+                    <button class="pg-tab pg-tab--active" data-plan="silver">Silver</button>
+                    <button class="pg-tab" data-plan="gold">Gold</button>
+                </div>
+
+                <div class="pg-slider">
+                    <button class="pg-nav pg-prev" aria-label="Önceki görsel">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    
+                    <div class="pg-slide-container">
+                        <img id="pg-slide-img" src="ss2.png" alt="Paket ekran görüntüsü">
+                        <div class="pg-slide-caption" id="pg-slide-caption">Silver Paket - Admin Panel</div>
+                    </div>
+                    
+                    <button class="pg-nav pg-next" aria-label="Sonraki görsel">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="pg-dots" id="pg-dots"></div>
+            </div>
+            <div class="pricing-comparison reveal-up">
+                <h3 class="comparison-title">
+                    <i data-lucide="list-checks"></i>
+                    Detaylı Paket Karşılaştırması
+                </h3>
+                
+                <div class="comparison-table-wrapper">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th class="feature-column">Özellik</th>
+                                <th class="plan-column entry-col">Giriş</th>
+                                <th class="plan-column silver-col">Silver</th>
+                                <th class="plan-column gold-col">Gold</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Tech Stack -->
+                            <tr class="category-row">
+                                <td colspan="4">
+                                    <i data-lucide="code-2"></i>
+                                    Teknoloji Altyapısı
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Admin Panel Teknolojisi</td>
+                                <td class="muted-text">HTML/CSS/JS</td>
+                                <td class="highlight-text">React + Vite</td>
+                                <td class="highlight-text">React + Vite + Next.js</td>
+                            </tr>
+                            <tr class="warning-row">
+                                <td>
+                                    <span class="feature-with-tooltip">
+                                        Üst Pakete Yükseltme
+                                        <span class="tooltip-trigger" data-tooltip="Giriş Paketi eski teknoloji ile yapıldığından, veri aktarımı ve yükseltme desteklenmez.">
+                                            <i data-lucide="help-circle"></i>
+                                        </span>
+                                    </span>
+                                </td>
+                                <td><span class="badge-no"><i data-lucide="x"></i> Yok</span></td>
+                                <td><span class="badge-yes"><i data-lucide="check"></i> Var</span></td>
+                                <td><span class="badge-full"><i data-lucide="crown"></i> Tam</span></td>
+                            </tr>
+                            <tr>
+                                <td>Veritabanı</td>
+                                <td>PostgreSQL</td>
+                                <td>PostgreSQL</td>
+                                <td>PostgreSQL</td>
+                            </tr>
+
+                            <!-- Core Features -->
+                            <tr class="category-row">
+                                <td colspan="4">
+                                    <i data-lucide="settings"></i>
+                                    Temel Özellikler
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tur Yönetimi</td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Yolcu Kayıt & TC Doğrulama</td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>PDF Çıktılar (Fatura, Liste)</td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Çoklu Çıkış Noktası & Fiyat</td>
+                                <td><i data-lucide="minus" class="minus-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Oda - Otel Yönetimi</td>
+                                <td><i data-lucide="minus" class="minus-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+
+                            <!-- Finance -->
+                            <tr class="category-row">
+                                <td colspan="4">
+                                    <i data-lucide="wallet"></i>
+                                    Finans & Raporlama
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Temel Gelir/Gider Takibi</td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Ofis Kasa Yönetimi</td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Tur Bazlı Kâr/Zarar Analizi</td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Bayi/Komisyon Sistemi</td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+
+                            <!-- B2C -->
+                            <tr class="category-row">
+                                <td colspan="4">
+                                    <i data-lucide="globe"></i>
+                                    B2C Müşteri Sitesi
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Profesyonel Web Sitesi</td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Online Tur Satışı</td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Müşteri Üyelik Paneli</td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                            <tr>
+                                <td>SEO & Mobil Uyumluluk</td>
+                                <td><i data-lucide="x" class="x-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                                <td><i data-lucide="check" class="check-icon"></i></td>
+                            </tr>
+                           
+
+                            <!-- Support -->
+                            <tr class="category-row">
+                                <td colspan="4">
+                                    <i data-lucide="headphones"></i>
+                                    Destek & Bakım
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="feature-with-tooltip">
+                                        Yıllık Bakım Ücreti
+                                        <span class="tooltip-trigger" data-tooltip="Sunucu, SSL, güvenlik güncellemeleri ve temel teknik destek dahildir.">
+                                            <i data-lucide="help-circle"></i>
+                                        </span>
+                                    </span>
+                                </td>
+                                <td>~90-100€</td>
+                                <td>~150€</td>
+                                <td>~250€</td>
+                            </tr>
+                           
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+                <p class="comparison-note">
+                    <i data-lucide="info"></i>
+                    Tüm fiyatlar tek seferlik kurulum ücretidir. Aylık abonelik yoktur.
+                </p>
+            </div>
+
+            <!-- FAQ Teaser -->
+            <div class="pricing-faq reveal-up">
+                <div class="faq-teaser">
+                    <div class="faq-icon">
+                        <i data-lucide="help-circle"></i>
+                    </div>
+                    <div class="faq-content">
+                        <h4>Hangi paketi seçeceğinizden emin değil misiniz?</h4>
+                        <p>Size özel bir sunum ayarlayalım. İhtiyaçlarınızı analiz edelim ve en uygun paketi birlikte belirleyelim.</p>
+                    </div>
+                    <a href="#contact" class="btn btn-primary">
+                        <i data-lucide="phone"></i>
+                        Ücretsiz Danışmanlık
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -398,7 +862,7 @@
     <section class="benefits" id="benefits">
         <div class="container">
             <div class="section-header">
-                <span class="section-badge">Neden ProTur?</span>
+                <span class="section-badge">Neden TurPilot?</span>
                 <h2 class="section-title">Acentenize <span class="gradient-text">Gerçek Faydalar</span></h2>
             </div>
 
@@ -526,7 +990,7 @@
                 <div class="footer-brand">
                     <a href="#" class="logo">
                         <span class="logo-icon"><i data-lucide="plane"></i></span>
-                        <span class="logo-text">ProTur</span>
+                        <span class="logo-text">TurPilot</span>
                     </a>
                     <p>Turizm acenteleri için komple dijital çözüm. Müşteri vitrini + Operasyon merkezi tek pakette.</p>
 
@@ -537,6 +1001,7 @@
                     <ul>
                         <li><a href="#dual-power">Ne Sunuyoruz?</a></li>
                         <li><a href="#features">Özellikler</a></li>
+                        <li><a href="#pricing">Fiyatlandırma</a></li>
                         <li><a href="#benefits">Faydalar</a></li>
                         <li><a href="#contact">Sunum Talep Et</a></li>
                     </ul>
@@ -576,6 +1041,7 @@
             <ul class="mobile-nav-links">
                 <li><a href="#dual-power">Ne Sunuyoruz?</a></li>
                 <li><a href="#features">Özellikler</a></li>
+                <li><a href="#pricing">Fiyatlandırma</a></li>
                 <li><a href="#benefits">Faydalar</a></li>
                 <li><a href="#contact" class="nav-cta">Sunum Talep Et</a></li>
             </ul>

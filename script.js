@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initSmoothScroll();
     initContactForm();
+    initPricingToggle();
+    initPricingAnimations();
+    initPackageGallery();
 });
 
 // Navbar scroll effect
@@ -20,6 +23,104 @@ function initNavbar() {
             navbar.classList.remove('scrolled');
         }
     });
+}
+
+// Package Gallery - Simple image slider per plan
+function initPackageGallery() {
+    const planData = {
+        entry: {
+            images: ['giris.png'],
+            captions: ['Giriş Paketi - Admin Panel']
+        },
+        silver: {
+            images: ['ss2.png', 'ss3.png'],
+            captions: ['Silver Paket - Dashboard', 'Silver Paket - Sefer Yönetimi']
+        },
+        gold: {
+            images: ['ss1.png', 'ss4.png', 'ss2.png', 'ss3.png'],
+            captions: ['Gold Paket - Müşteri Sitesi Turlar', 'Gold Paket - B2C Ana Sayfa']
+        }
+    };
+
+    const tabs = document.querySelectorAll('.pg-tab');
+    const slideImg = document.getElementById('pg-slide-img');
+    const slideCaption = document.getElementById('pg-slide-caption');
+    const dotsContainer = document.getElementById('pg-dots');
+    const prevBtn = document.querySelector('.pg-prev');
+    const nextBtn = document.querySelector('.pg-next');
+
+    if (!slideImg || !tabs.length) return;
+
+    let currentPlan = 'silver';
+    let currentIndex = 0;
+
+    function renderDots() {
+        const images = planData[currentPlan].images;
+        dotsContainer.innerHTML = '';
+        images.forEach((_, idx) => {
+            const dot = document.createElement('button');
+            dot.className = 'pg-dot' + (idx === currentIndex ? ' pg-dot--active' : '');
+            dot.addEventListener('click', () => goToSlide(idx));
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    function updateSlide() {
+        const data = planData[currentPlan];
+        slideImg.style.opacity = '0';
+        slideImg.style.transform = 'scale(0.98)';
+        
+        setTimeout(() => {
+            slideImg.src = data.images[currentIndex];
+            slideCaption.textContent = data.captions[currentIndex] || '';
+            slideImg.style.opacity = '1';
+            slideImg.style.transform = 'scale(1)';
+        }, 150);
+        
+        renderDots();
+    }
+
+    function goToSlide(idx) {
+        const images = planData[currentPlan].images;
+        currentIndex = (idx + images.length) % images.length;
+        updateSlide();
+    }
+
+    function switchPlan(plan) {
+        currentPlan = plan;
+        currentIndex = 0;
+        
+        tabs.forEach(t => t.classList.remove('pg-tab--active'));
+        document.querySelector(`.pg-tab[data-plan="${plan}"]`)?.classList.add('pg-tab--active');
+        
+        updateSlide();
+    }
+
+    // Event listeners
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => switchPlan(tab.dataset.plan));
+    });
+
+    prevBtn?.addEventListener('click', () => goToSlide(currentIndex - 1));
+    nextBtn?.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        const gallery = document.querySelector('.package-gallery');
+        if (!gallery) return;
+        
+        const rect = gallery.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isVisible) {
+            if (e.key === 'ArrowLeft') goToSlide(currentIndex - 1);
+            if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
+        }
+    });
+
+    // Initialize
+    updateSlide();
+    lucide.createIcons();
 }
 
 // Mobile menu
@@ -202,3 +303,53 @@ document.addEventListener('click', (e) => {
         closeModal();
     }
 });
+
+// Pricing maintenance toggle
+function initPricingToggle() {
+    const toggle = document.getElementById('maintenanceToggle');
+    const maintenanceElements = document.querySelectorAll('.pricing-maintenance');
+    
+    if (!toggle) return;
+    
+    toggle.addEventListener('change', () => {
+        maintenanceElements.forEach(el => {
+            if (toggle.checked) {
+                el.classList.add('visible');
+            } else {
+                el.classList.remove('visible');
+            }
+        });
+    });
+}
+
+// Pricing card animations
+function initPricingAnimations() {
+    const pricingCards = document.querySelectorAll('.pricing-card');
+    
+    // Staggered entrance animation on scroll
+    const pricingObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.dataset.delay || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('active');
+                }, delay * 150);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    pricingCards.forEach(card => {
+        pricingObserver.observe(card);
+    });
+    
+    // Add hover sound effect simulation (subtle scale)
+    pricingCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            // Re-initialize icons when hovering to ensure they're rendered
+            lucide.createIcons();
+        });
+    });
+}

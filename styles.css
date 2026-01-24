@@ -1,32 +1,92 @@
-/* ===== CSS Variables ===== */
+/* ===== CSS Variables - Light Modern Theme ===== */
 :root {
-    --primary: #3b82f6;
+    /* Primary Colors - Vibrant Blue */
+    --primary: #2563eb;
+    --primary-light: #3b82f6;
     --primary-dark: #1d4ed8;
+    --primary-50: #eff6ff;
+    --primary-100: #dbeafe;
+    
+    /* Secondary Colors - Warm Orange */
     --secondary: #f97316;
+    --secondary-light: #fb923c;
     --secondary-dark: #ea580c;
+    
+    /* Accent - Purple for gradients */
+    --accent: #7c3aed;
+    --accent-light: #8b5cf6;
+    
+    /* Background Colors - Light & Airy */
+    --bg-white: #ffffff;
+    --bg-light: #f8fafc;
+    --bg-soft: #f1f5f9;
+    --bg-muted: #e2e8f0;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8fafc;
+    --bg-glass: rgba(255, 255, 255, 0.8);
+    --bg-glass-dark: rgba(15, 23, 42, 0.03);
+    
+    /* Legacy dark vars for specific sections */
     --bg-dark: #0f172a;
     --bg-darker: #020617;
-    --bg-card: rgba(30, 41, 59, 0.7);
-    --bg-glass: rgba(255, 255, 255, 0.05);
-    --bg-light: #f8fafc;
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
+    
+    /* Text Colors */
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --text-white: #ffffff;
+    
+    /* For backward compat */
+    --text: #0f172a;
     --text-dark: #64748b;
     --text-body: #334155;
-    --success: #22c55e;
-    --warning: #eab308;
+    
+    /* Status Colors */
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --warning: #f59e0b;
+    --warning-light: #fef3c7;
     --danger: #ef4444;
-    --border: rgba(255, 255, 255, 0.1);
-    --border-light: rgba(0, 0, 0, 0.1);
-    --gradient-1: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    --gradient-2: linear-gradient(135deg, #f97316 0%, #f43f5e 100%);
-    --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 20px 60px -15px rgba(0, 0, 0, 0.4);
+    --danger-light: #fee2e2;
+    
+    /* Borders */
+    --border: rgba(0, 0, 0, 0.08);
+    --border-light: rgba(0, 0, 0, 0.05);
+    --border-medium: rgba(0, 0, 0, 0.12);
+    
+    /* Gradients - Softer, more modern */
+    --gradient-1: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    --gradient-2: linear-gradient(135deg, #f97316 0%, #ec4899 100%);
+    --gradient-hero: linear-gradient(135deg, #eff6ff 0%, #faf5ff 50%, #fff7ed 100%);
+    --gradient-section: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    --gradient-card: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    
+    /* Shadows - Softer for light theme */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+    --shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.14);
+    --shadow-primary: 0 8px 32px rgba(37, 99, 235, 0.25);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.1);
+    
+    /* Radius */
     --radius: 16px;
     --radius-sm: 8px;
+    --radius-md: 12px;
     --radius-lg: 24px;
+    --radius-xl: 32px;
+    --radius-full: 9999px;
+    
+    /* Transitions */
     --transition: all 0.3s ease;
+    --transition-fast: all 0.15s ease;
+    --transition-slow: all 0.5s ease;
+    
+    /* Font */
     --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -45,8 +105,8 @@ html {
 
 body {
     font-family: var(--font);
-    background: var(--bg-darker);
-    color: var(--text);
+    background: var(--bg-light);
+    color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
 }
@@ -100,11 +160,12 @@ textarea {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border);
+    padding: 8px 18px;
+    background: var(--primary-50);
+    border: 1px solid var(--primary-100);
     border-radius: 100px;
     font-size: 14px;
+    font-weight: 500;
     color: var(--primary);
     margin-bottom: 16px;
 }
@@ -113,6 +174,7 @@ textarea {
     font-size: clamp(32px, 5vw, 48px);
     font-weight: 800;
     margin-bottom: 16px;
+    color: var(--text-primary);
 }
 
 .section-description {
@@ -139,21 +201,24 @@ textarea {
 .btn-primary {
     background: var(--gradient-1);
     color: white;
+    box-shadow: var(--shadow-primary);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.35);
 }
 
 .btn-secondary {
-    background: var(--bg-glass);
-    border: 1px solid var(--border);
-    color: var(--text);
+    background: var(--bg-white);
+    border: 1px solid var(--border-medium);
+    color: var(--text-primary);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-soft);
+    border-color: var(--primary-light);
+    color: var(--primary);
 }
 
 .btn-lg {
@@ -174,12 +239,14 @@ textarea {
     z-index: 1000;
     padding: 16px 0;
     transition: var(--transition);
+    background: transparent;
 }
 
 .navbar.scrolled {
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
 }
 
 .navbar .container {
@@ -194,6 +261,7 @@ textarea {
     gap: 10px;
     font-size: 24px;
     font-weight: 800;
+    color: var(--text-primary);
 }
 
 .logo-icon {
@@ -225,7 +293,7 @@ textarea {
 }
 
 .nav-links a:hover {
-    color: var(--text);
+    color: var(--primary);
 }
 
 .nav-links .nav-cta {
@@ -233,12 +301,18 @@ textarea {
     background: var(--gradient-1);
     color: white;
     border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-primary);
+}
+
+.nav-links .nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
 }
 
 .mobile-menu-btn {
     display: none;
     padding: 8px;
-    color: var(--text);
+    color: var(--text-primary);
 }
 
 .mobile-menu-btn svg {
@@ -254,6 +328,7 @@ textarea {
     align-items: center;
     padding: 120px 0 80px;
     overflow: hidden;
+    background: var(--gradient-hero);
 }
 
 .hero-bg {
@@ -265,9 +340,10 @@ textarea {
 .hero-gradient {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at 30% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 70% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
-        var(--bg-darker);
+    background: 
+        radial-gradient(ellipse at 20% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 60% 100%, rgba(249, 115, 22, 0.04) 0%, transparent 40%);
 }
 
 .hero-container {
@@ -283,12 +359,15 @@ textarea {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    background: var(--bg-glass);
+    padding: 8px 18px;
+    background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: 100px;
     font-size: 14px;
+    font-weight: 500;
     margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    color: var(--text-secondary);
 }
 
 .hero-badge svg {
@@ -302,17 +381,19 @@ textarea {
     font-weight: 900;
     line-height: 1.15;
     margin-bottom: 24px;
+    color: var(--text-primary);
 }
 
 .hero-description {
     font-size: 18px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-bottom: 32px;
     line-height: 1.7;
 }
 
 .hero-description strong {
-    color: var(--text);
+    color: var(--primary);
+    font-weight: 600;
 }
 
 .hero-buttons {
@@ -382,7 +463,7 @@ textarea {
 
 /* ===== Screenshot Frame ===== */
 .screenshot-frame {
-    background: var(--bg-card);
+    background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
@@ -392,7 +473,7 @@ textarea {
 
 .screenshot-frame:hover {
     transform: translateY(-4px);
-    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-xl);
 }
 
 .screenshot-frame.large {
@@ -417,8 +498,7 @@ textarea {
 }
 
 .screenshot-frame.admin-frame:hover .frame-content::after {
-    background: rgba(15, 23, 42, 0.1);
-    backdrop-filter: blur(1px);
+    background: rgba(37, 99, 235, 0.03);
 }
 
 .frame-header {
@@ -426,7 +506,7 @@ textarea {
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--bg-soft);
     border-bottom: 1px solid var(--border);
 }
 
@@ -461,7 +541,7 @@ textarea {
 }
 
 .frame-content {
-    background: var(--bg-darker);
+    background: var(--bg-soft);
 }
 
 .screenshot-img {
@@ -474,7 +554,7 @@ textarea {
 /* ===== Dual Power Section ===== */
 .dual-power {
     padding: 120px 0;
-    background: var(--bg-dark);
+    background: var(--bg-white);
 }
 
 .dual-tabs {
@@ -493,24 +573,27 @@ textarea {
     align-items: center;
     gap: 10px;
     padding: 16px 32px;
-    background: var(--bg-glass);
-    border: 2px solid var(--border);
+    background: var(--bg-white);
+    border: 2px solid var(--border-medium);
     border-radius: 12px;
     font-size: 16px;
     font-weight: 600;
     color: var(--text-muted);
     transition: var(--transition);
+    box-shadow: var(--shadow-sm);
 }
 
 .dual-tab-btn:hover {
-    border-color: var(--primary);
-    color: var(--text);
+    border-color: var(--primary-light);
+    color: var(--primary);
+    background: var(--primary-50);
 }
 
 .dual-tab-btn.active {
     background: var(--gradient-1);
     border-color: transparent;
     color: white;
+    box-shadow: var(--shadow-primary);
 }
 
 .dual-tab-btn svg {
@@ -546,13 +629,13 @@ textarea {
 }
 
 .dual-label.public {
-    background: rgba(34, 197, 94, 0.1);
-    color: var(--success);
+    background: var(--success-light);
+    color: #047857;
 }
 
 .dual-label.admin {
-    background: rgba(59, 130, 246, 0.1);
-    color: var(--primary);
+    background: var(--primary-100);
+    color: var(--primary-dark);
 }
 
 .dual-label svg {
@@ -563,11 +646,12 @@ textarea {
 .dual-info h3 {
     font-size: 28px;
     margin-bottom: 16px;
+    color: var(--text-primary);
 }
 
 .dual-info>p {
     font-size: 16px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-bottom: 32px;
     line-height: 1.7;
 }
@@ -595,6 +679,7 @@ textarea {
 .dual-features li strong {
     display: block;
     margin-bottom: 4px;
+    color: var(--text-primary);
 }
 
 .dual-features li span {
@@ -652,17 +737,18 @@ textarea {
 .feature-timeline-content h3 {
     font-size: 22px;
     margin-bottom: 12px;
+    color: var(--text-primary);
 }
 
 .feature-timeline-content p {
     font-size: 16px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: 16px;
 }
 
 .feature-timeline-content strong {
-    color: var(--text);
+    color: var(--primary);
 }
 
 .feature-tags {
@@ -673,11 +759,12 @@ textarea {
 
 .feature-tags span {
     padding: 6px 14px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border);
+    background: var(--primary-50);
+    border: 1px solid var(--primary-100);
     border-radius: 20px;
     font-size: 12px;
-    color: var(--text-muted);
+    color: var(--primary);
+    font-weight: 500;
 }
 
 .feature-showcase {
@@ -693,7 +780,7 @@ textarea {
 /* ===== Benefits ===== */
 .benefits {
     padding: 120px 0;
-    background: var(--bg-dark);
+    background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg-white) 100%);
 }
 
 .benefits-grid {
@@ -704,16 +791,18 @@ textarea {
 
 .benefit-card {
     padding: 32px;
-    background: var(--bg-glass);
+    background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     transition: var(--transition);
     text-align: center;
+    box-shadow: var(--shadow-card);
 }
 
 .benefit-card:hover {
     transform: translateY(-8px);
-    border-color: var(--primary);
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-card-hover);
 }
 
 .benefit-icon {
@@ -725,6 +814,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--shadow-primary);
 }
 
 .benefit-icon svg {
@@ -736,6 +826,7 @@ textarea {
 .benefit-card h3 {
     font-size: 18px;
     margin-bottom: 12px;
+    color: var(--text-primary);
 }
 
 .benefit-card p {
@@ -747,6 +838,7 @@ textarea {
 /* ===== Technical Simple ===== */
 .technical-simple {
     padding: 80px 0;
+    background: var(--bg-white);
 }
 
 .tech-banner {
@@ -754,8 +846,8 @@ textarea {
     align-items: center;
     gap: 40px;
     padding: 48px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--primary-50) 0%, #faf5ff 100%);
+    border: 1px solid var(--primary-100);
     border-radius: var(--radius-lg);
 }
 
@@ -768,12 +860,13 @@ textarea {
 .tech-icon-item {
     width: 60px;
     height: 60px;
-    background: var(--bg-glass);
+    background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--shadow-sm);
 }
 
 .tech-icon-item svg {
@@ -785,22 +878,23 @@ textarea {
 .tech-text h3 {
     font-size: 24px;
     margin-bottom: 12px;
+    color: var(--text-primary);
 }
 
 .tech-text p {
     font-size: 16px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     line-height: 1.7;
 }
 
 .tech-text strong {
-    color: var(--text);
+    color: var(--primary);
 }
 
 /* ===== CTA Section ===== */
 .cta-section {
     padding: 120px 0;
-    background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+    background: linear-gradient(180deg, var(--bg-white) 0%, var(--primary-50) 100%);
 }
 
 .cta-content {
@@ -813,11 +907,12 @@ textarea {
 .cta-text h2 {
     font-size: 36px;
     margin-bottom: 16px;
+    color: var(--text-primary);
 }
 
 .cta-text>p {
     font-size: 18px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-bottom: 32px;
     line-height: 1.7;
 }
@@ -833,6 +928,7 @@ textarea {
     align-items: center;
     gap: 12px;
     font-size: 16px;
+    color: var(--text-secondary);
 }
 
 .cta-feature svg {
@@ -842,16 +938,18 @@ textarea {
 }
 
 .cta-form {
-    background: var(--bg-card);
+    background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 40px;
+    box-shadow: var(--shadow-lg);
 }
 
 .contact-form h3 {
     font-size: 24px;
     margin-bottom: 24px;
     text-align: center;
+    color: var(--text-primary);
 }
 
 .form-group {
@@ -863,16 +961,17 @@ textarea {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 8px;
+    color: var(--text-secondary);
 }
 
 .form-group input,
 .form-group textarea {
     width: 100%;
     padding: 14px 16px;
-    background: var(--bg-glass);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    color: var(--text);
+    color: var(--text-primary);
     font-size: 15px;
     transition: var(--transition);
 }
@@ -881,11 +980,13 @@ textarea {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary);
+    background: var(--bg-white);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-    color: var(--text-dark);
+    color: var(--text-light);
 }
 
 .form-note {
@@ -906,7 +1007,7 @@ textarea {
 /* ===== Footer ===== */
 .footer {
     padding: 80px 0 24px;
-    background: var(--bg-darker);
+    background: var(--bg-dark);
     border-top: 1px solid var(--border);
 }
 
@@ -920,11 +1021,12 @@ textarea {
 .footer-brand .logo {
     margin-bottom: 16px;
     display: inline-flex;
+    color: var(--text-white);
 }
 
 .footer-brand>p {
     font-size: 14px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.6);
     margin-bottom: 20px;
     max-width: 280px;
 }
@@ -937,13 +1039,13 @@ textarea {
 .footer-social a {
     width: 40px;
     height: 40px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.6);
     transition: var(--transition);
 }
 
@@ -962,6 +1064,7 @@ textarea {
 .footer-contact h4 {
     font-size: 16px;
     margin-bottom: 20px;
+    color: var(--text-white);
 }
 
 .footer-links ul,
@@ -973,12 +1076,12 @@ textarea {
 
 .footer-links a {
     font-size: 14px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.6);
     transition: var(--transition);
 }
 
 .footer-links a:hover {
-    color: var(--text);
+    color: var(--text-white);
 }
 
 .footer-contact li {
@@ -986,31 +1089,31 @@ textarea {
     align-items: center;
     gap: 12px;
     font-size: 14px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .footer-contact svg {
     width: 16px;
     height: 16px;
-    color: var(--primary);
+    color: var(--primary-light);
 }
 
 .footer-bottom {
     padding-top: 24px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
 }
 
 .footer-bottom p {
     font-size: 14px;
-    color: var(--text-dark);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* ===== Mobile Menu ===== */
 .mobile-menu-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     z-index: 2000;
     opacity: 0;
     visibility: hidden;
@@ -1034,7 +1137,7 @@ textarea {
     position: absolute;
     top: 24px;
     right: 24px;
-    color: var(--text);
+    color: var(--text-primary);
     padding: 8px;
 }
 
@@ -1053,20 +1156,22 @@ textarea {
 .mobile-nav-links a {
     font-size: 24px;
     font-weight: 600;
-    color: var(--text);
+    color: var(--text-primary);
 }
 
 .mobile-nav-links .nav-cta {
     padding: 16px 32px;
     background: var(--gradient-1);
     border-radius: var(--radius-sm);
+    color: white;
 }
 
 /* ===== Modal ===== */
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
     z-index: 3000;
     display: flex;
     align-items: center;
@@ -1082,12 +1187,13 @@ textarea {
 }
 
 .modal-content {
-    background: var(--bg-card);
+    background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 48px;
     text-align: center;
     max-width: 400px;
+    box-shadow: var(--shadow-xl);
 }
 
 .modal-icon {
@@ -1101,7 +1207,7 @@ textarea {
 }
 
 .modal-icon.success {
-    background: rgba(34, 197, 94, 0.1);
+    background: var(--success-light);
 }
 
 .modal-icon svg {
@@ -1113,11 +1219,12 @@ textarea {
 .modal-content h3 {
     font-size: 24px;
     margin-bottom: 12px;
+    color: var(--text-primary);
 }
 
 .modal-content p {
     font-size: 16px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-bottom: 24px;
 }
 
@@ -1366,7 +1473,7 @@ textarea {
 /* ===== Pricing Section ===== */
 .pricing {
     padding: 120px 0;
-    background: var(--bg-dark);
+    background: var(--bg-soft);
     position: relative;
     overflow: hidden;
 }
@@ -1379,7 +1486,7 @@ textarea {
     transform: translateX(-50%);
     width: 800px;
     height: 800px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.04) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -1396,14 +1503,15 @@ textarea {
     gap: 12px;
     cursor: pointer;
     padding: 12px 24px;
-    background: var(--bg-glass);
+    background: var(--bg-white);
     border: 1px solid var(--border);
     border-radius: 100px;
     transition: var(--transition);
+    box-shadow: var(--shadow-sm);
 }
 
 .pricing-toggle:hover {
-    border-color: var(--primary);
+    border-color: var(--primary-light);
 }
 
 .pricing-toggle input {
@@ -1414,7 +1522,7 @@ textarea {
     position: relative;
     width: 48px;
     height: 26px;
-    background: var(--bg-darker);
+    background: var(--bg-muted);
     border-radius: 26px;
     transition: var(--transition);
 }
@@ -1426,9 +1534,10 @@ textarea {
     left: 3px;
     width: 20px;
     height: 20px;
-    background: var(--text-muted);
+    background: var(--bg-white);
     border-radius: 50%;
     transition: var(--transition);
+    box-shadow: var(--shadow-xs);
 }
 
 .pricing-toggle input:checked + .toggle-slider {
@@ -1443,7 +1552,7 @@ textarea {
 .toggle-label {
     font-size: 15px;
     font-weight: 500;
-    color: var(--text);
+    color: var(--text-primary);
 }
 
 .toggle-info {
@@ -1470,12 +1579,12 @@ textarea {
     transform: translateX(-50%);
     width: 280px;
     padding: 12px 16px;
-    background: var(--bg-darker);
-    border: 1px solid var(--border);
+    background: var(--bg-dark);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-sm);
     font-size: 13px;
     line-height: 1.5;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.8);
     opacity: 0;
     visibility: hidden;
     transition: var(--transition);
@@ -1510,7 +1619,7 @@ textarea {
 
 .pricing-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-card-hover);
 }
 
 /* Entry Card Styling */
@@ -1524,26 +1633,26 @@ textarea {
 
 /* Silver Card - Featured */
 .pricing-card.silver.featured {
-    background: linear-gradient(180deg, rgba(59, 130, 246, 0.1) 0%, var(--bg-card) 50%);
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.06) 0%, var(--bg-card) 50%);
     border: 2px solid var(--primary);
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.1);
     transform: scale(1.02);
 }
 
 .pricing-card.silver.featured:hover {
     transform: scale(1.04) translateY(-8px);
-    box-shadow: 0 0 60px rgba(59, 130, 246, 0.25), 0 20px 60px -15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 60px rgba(59, 130, 246, 0.15), var(--shadow-card-hover);
 }
 
 /* Gold Card Styling */
 .pricing-card.gold {
-    background: linear-gradient(180deg, rgba(251, 191, 36, 0.08) 0%, var(--bg-card) 50%);
+    background: linear-gradient(180deg, rgba(251, 191, 36, 0.06) 0%, var(--bg-card) 50%);
     border: 1px solid rgba(251, 191, 36, 0.3);
 }
 
 .pricing-card.gold:hover {
     border-color: rgba(251, 191, 36, 0.5);
-    box-shadow: 0 0 40px rgba(251, 191, 36, 0.1), 0 20px 60px -15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 40px rgba(251, 191, 36, 0.08), var(--shadow-card-hover);
 }
 
 /* Pricing Badges */
@@ -1603,7 +1712,7 @@ textarea {
 .pricing-tier {
     display: inline-block;
     padding: 4px 12px;
-    background: var(--bg-glass);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 20px;
     font-size: 11px;
@@ -1686,10 +1795,10 @@ textarea {
     justify-content: center;
     gap: 8px;
     padding: 8px 16px;
-    background: var(--bg-glass);
+    background: var(--bg-soft);
     border-radius: 8px;
     font-size: 13px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     margin-bottom: 24px;
     max-height: 0;
     opacity: 0;
@@ -1720,8 +1829,9 @@ textarea {
     align-items: center;
     gap: 12px;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border);
     font-size: 14px;
+    color: var(--text-secondary);
 }
 
 .pricing-features li:last-child {
@@ -1739,11 +1849,11 @@ textarea {
 }
 
 .pricing-features li.disabled {
-    color: var(--text-dark);
+    color: var(--text-muted);
 }
 
 .pricing-features li.disabled svg {
-    color: var(--text-dark);
+    color: var(--text-muted);
 }
 
 .pricing-features li.highlight {
@@ -1906,7 +2016,7 @@ textarea {
 .comparison-table th {
     font-weight: 600;
     font-size: 14px;
-    background: var(--bg-glass);
+    background: var(--bg-soft);
 }
 
 .comparison-table th.feature-column {
@@ -1934,17 +2044,17 @@ textarea {
 }
 
 .comparison-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--bg-soft);
 }
 
 /* Category Rows */
 .comparison-table .category-row td {
-    background: var(--bg-darker);
+    background: var(--bg-muted);
     font-weight: 600;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     padding: 12px 16px;
     text-align: left !important;
 }
@@ -1972,7 +2082,7 @@ textarea {
 .comparison-table .x-icon {
     width: 20px;
     height: 20px;
-    color: var(--text-dark);
+    color: var(--text-muted);
 }
 
 .comparison-table .minus-icon {
@@ -1982,7 +2092,7 @@ textarea {
 }
 
 .comparison-table .muted-text {
-    color: var(--text-dark);
+    color: var(--text-muted);
 }
 
 .comparison-table .highlight-text {
@@ -2051,7 +2161,7 @@ textarea {
 .tooltip-trigger svg {
     width: 14px;
     height: 14px;
-    color: var(--text-dark);
+    color: var(--text-muted);
 }
 
 .tooltip-trigger::after {
@@ -2062,13 +2172,13 @@ textarea {
     transform: translateX(-50%);
     width: 250px;
     padding: 10px 14px;
-    background: var(--bg-darker);
+    background: var(--text-primary);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     font-size: 12px;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--text-muted);
+    color: white;
     text-align: left;
     opacity: 0;
     visibility: hidden;
@@ -2109,7 +2219,7 @@ textarea {
     align-items: center;
     gap: 24px;
     padding: 32px 40px;
-    background: var(--bg-glass);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
 }
@@ -2250,10 +2360,10 @@ textarea {
 
 .pg-tab {
     padding: 10px 24px;
-    background: var(--bg-glass);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 8px;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
@@ -2262,7 +2372,7 @@ textarea {
 
 .pg-tab:hover {
     border-color: var(--primary);
-    color: var(--text);
+    color: var(--text-primary);
 }
 
 .pg-tab--active {
@@ -2287,10 +2397,10 @@ textarea {
 .pg-nav {
     width: 44px;
     height: 44px;
-    background: var(--bg-glass);
+    background: var(--bg-soft);
     border: 1px solid var(--border);
     border-radius: 50%;
-    color: var(--text);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2316,7 +2426,7 @@ textarea {
     width: 100%;
     overflow: hidden;
     border-radius: var(--radius);
-    background: var(--bg-darker);
+    background: var(--bg-muted);
     border: 1px solid var(--border);
 }
 
@@ -2334,7 +2444,7 @@ textarea {
     left: 0;
     right: 0;
     padding: 12px 16px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
     color: white;
     font-size: 13px;
     font-weight: 500;
@@ -2350,7 +2460,7 @@ textarea {
 .pg-dot {
     width: 10px;
     height: 10px;
-    background: var(--bg-glass);
+    background: var(--bg-muted);
     border: 1px solid var(--border);
     border-radius: 50%;
     cursor: pointer;

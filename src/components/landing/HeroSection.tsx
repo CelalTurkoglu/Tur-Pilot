@@ -13,13 +13,13 @@ export function HeroSection() {
   return (
     <section className="hero-section relative overflow-hidden">
       <div className="landing-container">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
+        <div className="grid items-center gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:gap-12">
           <div className="hero-copy-stack">
             <div className="hero-heading-block">
               <span className="section-kicker hero-kicker">Kurumsal Tur Operasyon Altyapısı</span>
 
               <div className="space-y-5">
-                <h1 className="section-title max-w-3xl">
+                <h1 className="section-title hero-title max-w-3xl">
                   Tur Operasyonlarındaki Kaosu Bitirin. Excel&apos;i Bırakın, Satışa Odaklanın.
                 </h1>
                 <h2 className="max-w-3xl text-lg leading-8 text-[#627186] sm:text-xl">
@@ -29,7 +29,7 @@ export function HeroSection() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-col gap-3.5 sm:flex-row">
               <Link href="#contact" className="btn-primary">
                 Ücretsiz Canlı Demo Planla
                 <ArrowRight className="h-4 w-4" />
@@ -41,8 +41,8 @@ export function HeroSection() {
 
             <div className="grid gap-3 sm:grid-cols-3">
               {quickBenefits.map((item) => (
-                <div key={item} className="rounded-3xl border border-[#dfe5ec] bg-white px-4 py-4 text-sm font-medium text-[#4f5c70] shadow-[var(--shadow-subtle)]">
-                  <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-[#eef2f6] text-[#10233f]">
+                <div key={item} className="rounded-[26px] border border-[#dfe5ec] bg-white px-4 py-3.5 text-[0.94rem] font-medium leading-6 text-[#4f5c70] shadow-[var(--shadow-subtle)]">
+                  <div className="mb-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#eef2f6] text-[#10233f]">
                     <CheckCircle2 className="h-4 w-4" />
                   </div>
                   {item}

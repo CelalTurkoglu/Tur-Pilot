@@ -275,20 +275,25 @@ textarea:focus {
 }
 
 .hero-section {
-  padding-top: 7.45rem;
-  padding-bottom: 5.5rem;
+  padding-top: 6.9rem;
+  padding-bottom: 4.65rem;
 }
 
 .hero-copy-stack {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 1.4rem;
 }
 
 .hero-heading-block {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: 1.4rem;
+}
+
+.hero-title {
+  font-size: clamp(2.85rem, 4.5vw, 3.45rem);
+  line-height: 0.98;
 }
 
 @media (max-width: 1023px) {
@@ -297,16 +302,16 @@ textarea:focus {
   }
 
   .hero-section {
-    padding-top: 6.95rem;
-    padding-bottom: 4.5rem;
+    padding-top: 6.45rem;
+    padding-bottom: 4.05rem;
   }
 
   .hero-copy-stack {
-    gap: 1.55rem;
+    gap: 1.3rem;
   }
 
   .hero-heading-block {
-    gap: 1.05rem;
+    gap: 1.2rem;
   }
 }
 
@@ -347,8 +352,8 @@ textarea:focus {
   }
 
   .hero-section {
-    padding-top: 5.95rem;
-    padding-bottom: 4.1rem;
+    padding-top: 5.75rem;
+    padding-bottom: 3.9rem;
   }
 
   .hero-kicker {
@@ -356,7 +361,7 @@ textarea:focus {
   }
 
   .hero-heading-block {
-    gap: 1rem;
+    gap: 1.08rem;
   }
 
   .section-title {
@@ -375,8 +380,8 @@ textarea:focus {
 
 @media (max-width: 420px) {
   .hero-section {
-    padding-top: 5.65rem;
-    padding-bottom: 3.9rem;
+    padding-top: 5.45rem;
+    padding-bottom: 3.75rem;
   }
 
   .brand-logo-image {

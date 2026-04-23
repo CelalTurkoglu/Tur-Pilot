@@ -31,8 +31,8 @@ export function Navbar() {
   return (
     <>
       <nav className={`nav-shell ${scrolled ? 'nav-shell-scrolled' : ''}`}>
-        <div className="landing-container nav-mobile-inner relative z-[1] flex min-h-[58px] items-center justify-between gap-4 lg:min-h-[62px]">
-          <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+        <div className="landing-container nav-mobile-inner relative z-[1] flex min-h-[56px] items-center justify-between gap-3 lg:min-h-[62px]">
+          <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
             <Image
               src="/yenilogo-brand.png"
               alt="TurPilot logosu"
@@ -63,10 +63,10 @@ export function Navbar() {
           <button
             type="button"
             aria-label="Menüyü aç"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-[20px] border border-[#d7dee8] bg-white text-[#10233f] shadow-[0_10px_24px_rgba(16,35,63,0.06)] lg:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-[18px] border border-[#d7dee8] bg-white text-[#10233f] shadow-[0_10px_24px_rgba(16,35,63,0.06)] sm:h-10 sm:w-10 sm:rounded-[20px] lg:hidden"
             onClick={() => setOpen(true)}
           >
-            <Menu className="h-5 w-5" />
+            <Menu className="h-[18px] w-[18px] sm:h-5 sm:w-5" />
           </button>
         </div>
       </nav>

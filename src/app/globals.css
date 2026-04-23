@@ -290,12 +290,12 @@ textarea:focus {
 
 @media (max-width: 767px) {
   .landing-container {
-    padding: 0 0.95rem;
+    padding: 0 0.92rem;
   }
 
   .nav-mobile-inner {
-    padding-left: 0.55rem;
-    padding-right: 0.55rem;
+    padding-left: 0.95rem;
+    padding-right: 0.95rem;
   }
 
   .nav-shell {
@@ -303,7 +303,7 @@ textarea:focus {
   }
 
   .nav-shell::before {
-    inset: 0.34rem 0.82rem auto;
+    inset: 0.34rem 0.58rem auto;
     height: calc(100% - 0.12rem);
     border-radius: 24px;
   }
@@ -341,12 +341,12 @@ textarea:focus {
   }
 
   .brand-logo-image {
-    height: 2.2rem;
-    width: 2.2rem;
+    height: 1.95rem;
+    width: 1.95rem;
   }
 
   .brand-wordmark {
-    font-size: 1.45rem;
+    font-size: 1.28rem;
   }
 }
 
@@ -356,11 +356,11 @@ textarea:focus {
   }
 
   .brand-logo-image {
-    height: 2.1rem;
-    width: 2.1rem;
+    height: 1.88rem;
+    width: 1.88rem;
   }
 
   .brand-wordmark {
-    font-size: 1.38rem;
+    font-size: 1.22rem;
   }
 }

@@ -6,7 +6,7 @@ const features = [
   {
     icon: FileCheck2,
     title: 'Islak İmza Derdine Son',
-    text: 'Yolcularınıza tek tıkla sözleşme onaylatın, hukuki güvencenizi anında sağlayın.',
+    text: 'Yolcularınıza tek tıkla sözleşme onaylatın.',
   },
   {
     icon: BedDouble,

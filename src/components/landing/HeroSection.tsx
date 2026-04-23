@@ -23,7 +23,7 @@ export function HeroSection() {
                   Tur Operasyonlarındaki Kaosu Bitirin. Excel&apos;i Bırakın, Satışa Odaklanın.
                 </h1>
                 <h2 className="max-w-3xl text-lg leading-8 text-[#627186] sm:text-xl">
-                  Tur sözleşmelerinizi WhatsApp&apos;tan hukuki olarak onaylatan, otel/araç planlamasını otomatize eden
+                  Tur sözleşmelerinizi WhatsApp&apos;tan tek tıkla onaylatan, otel/araç planlamasını otomatize eden
                   ve banka komisyonlarını yöneten Karabük Teknokent onaylı acente altyapısı.
                 </h2>
               </div>

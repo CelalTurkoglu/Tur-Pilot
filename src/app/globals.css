@@ -275,14 +275,20 @@ textarea:focus {
 }
 
 .hero-section {
-  padding-top: 8.5rem;
+  padding-top: 7.45rem;
   padding-bottom: 5.5rem;
 }
 
 .hero-copy-stack {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.8rem;
+}
+
+.hero-heading-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
 }
 
 @media (max-width: 1023px) {
@@ -291,12 +297,16 @@ textarea:focus {
   }
 
   .hero-section {
-    padding-top: 7.4rem;
+    padding-top: 6.95rem;
     padding-bottom: 4.5rem;
   }
 
   .hero-copy-stack {
-    gap: 1.6rem;
+    gap: 1.55rem;
+  }
+
+  .hero-heading-block {
+    gap: 1.05rem;
   }
 }
 
@@ -337,12 +347,16 @@ textarea:focus {
   }
 
   .hero-section {
-    padding-top: 6.55rem;
+    padding-top: 5.95rem;
     padding-bottom: 4.1rem;
   }
 
   .hero-kicker {
     margin-top: 0;
+  }
+
+  .hero-heading-block {
+    gap: 1rem;
   }
 
   .section-title {
@@ -361,7 +375,7 @@ textarea:focus {
 
 @media (max-width: 420px) {
   .hero-section {
-    padding-top: 6.2rem;
+    padding-top: 5.65rem;
     padding-bottom: 3.9rem;
   }
 

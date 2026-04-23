@@ -15,16 +15,18 @@ export function HeroSection() {
       <div className="landing-container">
         <div className="grid items-center gap-12 lg:grid-cols-[1.02fr_0.98fr] lg:gap-14">
           <div className="hero-copy-stack">
-            <span className="section-kicker hero-kicker">Kurumsal Tur Operasyon Altyapısı</span>
+            <div className="hero-heading-block">
+              <span className="section-kicker hero-kicker">Kurumsal Tur Operasyon Altyapısı</span>
 
-            <div className="space-y-5">
-              <h1 className="section-title max-w-3xl">
-                Tur Operasyonlarındaki Kaosu Bitirin. Excel&apos;i Bırakın, Satışa Odaklanın.
-              </h1>
-              <h2 className="max-w-3xl text-lg leading-8 text-[#627186] sm:text-xl">
-                Tur sözleşmelerinizi WhatsApp&apos;tan hukuki olarak onaylatan, otel/araç planlamasını otomatize eden
-                ve banka komisyonlarını yöneten Karabük Teknokent onaylı acente altyapısı.
-              </h2>
+              <div className="space-y-5">
+                <h1 className="section-title max-w-3xl">
+                  Tur Operasyonlarındaki Kaosu Bitirin. Excel&apos;i Bırakın, Satışa Odaklanın.
+                </h1>
+                <h2 className="max-w-3xl text-lg leading-8 text-[#627186] sm:text-xl">
+                  Tur sözleşmelerinizi WhatsApp&apos;tan hukuki olarak onaylatan, otel/araç planlamasını otomatize eden
+                  ve banka komisyonlarını yöneten Karabük Teknokent onaylı acente altyapısı.
+                </h2>
+              </div>
             </div>
 
             <div className="flex flex-col gap-4 sm:flex-row">

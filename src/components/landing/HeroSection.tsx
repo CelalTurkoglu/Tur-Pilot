@@ -11,11 +11,11 @@ const quickBenefits = [
 
 export function HeroSection() {
   return (
-    <section className="section-space relative overflow-hidden pt-64 sm:pt-68 md:pt-[8.5rem]">
+    <section className="hero-section section-space relative overflow-hidden">
       <div className="landing-container">
         <div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr]">
-          <div className="space-y-6 md:space-y-8">
-            <span className="section-kicker">Kurumsal Tur Operasyon Altyapısı</span>
+          <div className="hero-copy-stack space-y-6 md:space-y-8">
+            <span className="section-kicker hero-kicker">Kurumsal Tur Operasyon Altyapısı</span>
 
             <div className="space-y-5">
               <h1 className="section-title max-w-3xl">

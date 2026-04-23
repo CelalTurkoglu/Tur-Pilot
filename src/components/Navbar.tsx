@@ -31,7 +31,7 @@ export function Navbar() {
   return (
     <>
       <nav className={`nav-shell ${scrolled ? 'nav-shell-scrolled' : ''}`}>
-        <div className="landing-container relative z-[1] flex min-h-[58px] items-center justify-between gap-4 px-2.5 sm:px-0 lg:min-h-[62px]">
+        <div className="landing-container nav-mobile-inner relative z-[1] flex min-h-[58px] items-center justify-between gap-4 lg:min-h-[62px]">
           <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
             <Image
               src="/yenilogo-brand.png"

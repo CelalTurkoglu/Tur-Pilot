@@ -35,6 +35,7 @@ body {
   font-family: "Inter", "Roboto", "Plus Jakarta Sans", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
@@ -317,12 +318,12 @@ textarea:focus {
 
 @media (max-width: 767px) {
   .landing-container {
-    padding: 0 0.92rem;
+    padding: 0 1rem;
   }
 
   .nav-mobile-inner {
-    padding-left: 0.82rem;
-    padding-right: 0.82rem;
+    padding-left: 0.42rem;
+    padding-right: 0.42rem;
   }
 
   .nav-shell {
@@ -330,7 +331,7 @@ textarea:focus {
   }
 
   .nav-shell::before {
-    inset: 0.34rem 0.72rem auto;
+    inset: 0.34rem 0.52rem auto;
     height: calc(100% - 0.12rem);
     border-radius: 24px;
   }
@@ -376,6 +377,10 @@ textarea:focus {
   .brand-wordmark {
     font-size: 1.16rem;
   }
+
+  .brand-wordmark-nav {
+    font-size: 1.34rem;
+  }
 }
 
 @media (max-width: 420px) {
@@ -391,5 +396,9 @@ textarea:focus {
 
   .brand-wordmark {
     font-size: 1.08rem;
+  }
+
+  .brand-wordmark-nav {
+    font-size: 1.2rem;
   }
 }

@@ -42,7 +42,7 @@ export function Navbar() {
               priority
             />
             <div className="min-w-0 shrink-0">
-              <p className="brand-wordmark">TurPilot</p>
+              <p className="brand-wordmark brand-wordmark-nav">TurPilot</p>
             </div>
           </Link>
 

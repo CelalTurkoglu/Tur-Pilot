@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 const links = [
   { href: '#features', label: 'Özellikler' },
   { href: '#solutions', label: 'Çözüm Paketleri' },
+  { href: '/pricing', label: 'Fiyatlandırma' },
   { href: '#contact', label: 'İletişim' },
 ];
 

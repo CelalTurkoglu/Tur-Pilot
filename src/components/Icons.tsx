@@ -12,41 +12,57 @@ export function TurPilotMark({
   className?: string;
   inverted?: boolean;
 }) {
+  const badgeBg = inverted ? "#FFFFFF" : "#2457D6";
+  const fg = inverted ? "#2457D6" : "#FFFFFF";
+
   return (
     <span className={`inline-flex items-center gap-2.5 ${className ?? ""}`}>
       <svg
-        width="28"
-        height="28"
-        viewBox="0 0 28 28"
+        width="32"
+        height="32"
+        viewBox="0 0 36 36"
         fill="none"
         aria-hidden="true"
         className="shrink-0"
       >
+        <rect width="36" height="36" rx="9.5" fill={badgeBg} />
         <rect
-          width="28"
-          height="28"
-          rx="8"
-          fill={inverted ? "#FFFFFF" : "#2457D6"}
+          x="8.5"
+          y="7.5"
+          width="19"
+          height="19"
+          rx="4.5"
+          stroke={fg}
+          strokeWidth="2.3"
         />
         <path
-          d="M7 10.5C7 8.84315 8.34315 7.5 10 7.5H18C19.6569 7.5 21 8.84315 21 10.5V16.5C21 17.6046 20.1046 18.5 19 18.5H9C7.89543 18.5 7 17.6046 7 16.5V10.5Z"
-          stroke={inverted ? "#2457D6" : "#FFFFFF"}
-          strokeWidth="1.8"
+          d="M9.5 19H26.5"
+          stroke={fg}
+          strokeWidth="2"
+          strokeLinecap="round"
         />
         <path
-          d="M7.5 13.5H20.5"
-          stroke={inverted ? "#2457D6" : "#FFFFFF"}
-          strokeWidth="1.6"
+          d="M18 10.6L22.2 15.8H19.4V18.8H16.6V15.8H13.8L18 10.6Z"
+          fill={fg}
         />
-        <circle cx="10.2" cy="20.4" r="1.4" fill="#F2A900" />
-        <circle cx="17.8" cy="20.4" r="1.4" fill="#F2A900" />
+        <circle cx="13.2" cy="22.7" r="1.75" fill="#F2A900" />
+        <circle cx="22.8" cy="22.7" r="1.75" fill="#F2A900" />
+        <path
+          d="M12.5 26.5V28.3M23.5 26.5V28.3"
+          stroke={fg}
+          strokeWidth="2.2"
+          strokeLinecap="round"
+        />
       </svg>
-      <span
-        className={`text-[20px] font-bold tracking-tight font-condensed ${
-          inverted ? "text-white" : "text-[#2457D6]"
-        }`}
-      >
-        TurPilot
+      <span className="text-[21px] font-bold tracking-tight font-condensed leading-none">
+        {inverted ? (
+          <span className="text-white">TurPilot</span>
+        ) : (
+          <>
+            <span className="text-[#15304C]">Tur</span>
+            <span className="text-[#2457D6]">Pilot</span>
+          </>
+        )}
       </span>
     </span>
   );

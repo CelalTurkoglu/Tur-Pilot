@@ -156,7 +156,10 @@ function buildEmails(params: {
   const customerHtml = `
   <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;color:#15304C;background:#F2F4F7;padding:24px;">
     <div style="background:#FFFFFF;border:1px solid #DDE2E9;border-radius:14px;padding:24px;">
-      <div style="font-size:18px;font-weight:700;color:#2457D6;">TurPilot</div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="${siteConfig.siteUrl}/apple-icon" alt="TurPilot" width="32" height="32" style="border-radius:8px;display:block;" />
+        <span style="font-size:20px;font-weight:700;color:#15304C;">Tur<span style="color:#2457D6;">Pilot</span></span>
+      </div>
       <h1 style="margin:12px 0 8px;font-size:22px;color:#15304C;">Talebiniz ekibimize ulaştı.</h1>
       <p style="margin:0 0 16px;font-size:15px;line-height:1.55;color:#34465A;">
         Merhaba ${escapeHtml(params.contactName)},<br/>

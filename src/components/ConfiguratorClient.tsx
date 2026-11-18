@@ -85,6 +85,11 @@ export function ConfiguratorClient() {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [deliveryInfo, setDeliveryInfo] = useState<{
+    referenceId?: string;
+    emailDelivered?: boolean;
+    customerNotified?: boolean;
+  } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Masaüstü scroll-focus IntersectionObserver (Main.dc.html referanslı)
@@ -187,7 +192,7 @@ export function ConfiguratorClient() {
 
     setSubmitting(true);
     try {
-      await fetch(siteConfig.leadEndpoint, {
+      const res = await fetch(siteConfig.leadEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -199,9 +204,26 @@ export function ConfiguratorClient() {
           ...form,
         }),
       });
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.ok) {
+        setErrorMessage(
+          json?.error ||
+            "Talep gönderilirken sunucu hatası oluştu. Lütfen WhatsApp üzerinden doğrudan iletin."
+        );
+        scrollToForm();
+        return;
+      }
+      setDeliveryInfo({
+        referenceId: json.referenceId,
+        emailDelivered: !!json.emailDelivered,
+        customerNotified: !!json.customerNotified,
+      });
       setSubmitted(true);
     } catch {
-      setSubmitted(true);
+      setErrorMessage(
+        "Bağlantı hatası oluştu. Lütfen tekrar deneyin veya WhatsApp ile bizimle iletişime geçin."
+      );
+      scrollToForm();
     } finally {
       setSubmitting(false);
     }
@@ -631,14 +653,25 @@ export function ConfiguratorClient() {
                         type="button"
                         onClick={() => setDetailId(m.id)}
                         aria-label={`${m.name} görsel önizlemesini aç`}
-                        className="shrink-0 w-16 h-16 rounded-[10px] bg-[#E8ECF2] border border-[#DDE2E9] flex flex-col items-center justify-center text-[#2457D6] cursor-pointer"
+                        className="shrink-0 w-16 h-16 rounded-[10px] bg-[#E8ECF2] border border-[#DDE2E9] overflow-hidden flex flex-col items-center justify-center text-[#2457D6] cursor-pointer"
                       >
-                        <span className="text-[10px] font-bold uppercase tracking-wider">
-                          Önizle
-                        </span>
-                        <span className="text-[11px] font-medium text-[#5A6472] mt-0.5">
-                          16:10
-                        </span>
+                        {siteConfig.previewAssets[m.id].length > 0 ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={siteConfig.previewAssets[m.id][0].src}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <>
+                            <span className="text-[10px] font-bold uppercase tracking-wider">
+                              Önizle
+                            </span>
+                            <span className="text-[11px] font-medium text-[#5A6472] mt-0.5">
+                              16:10
+                            </span>
+                          </>
+                        )}
                       </button>
 
                       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
@@ -715,6 +748,7 @@ export function ConfiguratorClient() {
             onSubmit={handleSubmit}
             submitting={submitting}
             submitted={submitted}
+            deliveryInfo={deliveryInfo}
             errorMessage={errorMessage}
           />
         )}

@@ -38,6 +38,7 @@ export function SummaryView({
   onSubmit,
   submitting,
   submitted,
+  deliveryInfo,
   errorMessage,
 }: {
   selectedItems: ConfigModule[];
@@ -53,6 +54,11 @@ export function SummaryView({
   onSubmit: () => void;
   submitting: boolean;
   submitted: boolean;
+  deliveryInfo: {
+    referenceId?: string;
+    emailDelivered?: boolean;
+    customerNotified?: boolean;
+  } | null;
   errorMessage: string | null;
 }) {
   const groups = ([0, 1, 2, 3] as const).map((stepIndex) => ({
@@ -299,14 +305,17 @@ export function SummaryView({
             >
               <div className="flex items-center gap-2 font-bold text-[16px]">
                 <CheckIcon size={18} />
-                <span>Özet gönderildi</span>
+                <span>
+                  Özet hazırland{deliveryInfo?.referenceId ? ` (${deliveryInfo.referenceId})` : "ı"}
+                </span>
               </div>
               <p className="text-[14px] leading-snug">
                 <strong>{form.agencyName}</strong> için seçtiğiniz{" "}
                 {selectedItems.length} modüllük yapılandırma (
-                {formatTry(subtotal)} + KDV / yıl) kaydedildi. Tercih
-                ettiğiniz <strong>{form.callWindow.toLowerCase()}</strong>{" "}
-                saatlerinde dönüş yapacağız.
+                {formatTry(subtotal)} + KDV / yıl) kaydedildi.{" "}
+                {deliveryInfo?.customerNotified
+                  ? `Detaylı özet ${form.email} adresinize ve ekibimize iletildi.`
+                  : "Doğrudan ekibimize ulaşmak için aşağıdaki WhatsApp butonuna basarak özeti tek tıkla gönderebilirsiniz."}
               </p>
               <a
                 href={whatsappSummaryHref}
@@ -317,6 +326,16 @@ export function SummaryView({
                 <WhatsAppIcon size={18} />
                 <span>Özeti WhatsApp ile Gönder</span>
               </a>
+              {siteConfig.calendlyUrl && (
+                <a
+                  href={siteConfig.calendlyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full min-h-[44px] rounded-[10px] border border-[#1E7A46]/35 bg-white text-[#144F2E] font-semibold text-[14px] inline-flex items-center justify-center"
+                >
+                  Takvimden Görüşme Saati Seç
+                </a>
+              )}
             </div>
           )}
         </section>
@@ -400,14 +419,22 @@ export function SummaryView({
           >
             <div className="flex items-center gap-2 font-bold text-[16px]">
               <CheckIcon size={18} />
-              <span>Özet gönderildi</span>
+              <span>
+                {deliveryInfo?.emailDelivered
+                  ? "Özet e-posta ile gönderildi"
+                  : "Özet talebiniz hazır"}
+              </span>
             </div>
             <p className="text-[14px] leading-snug">
               <strong>{form.agencyName}</strong> için seçtiğiniz{" "}
               {selectedItems.length} modüllük yapılandırma (
-              {formatTry(subtotal)} + KDV / yıl) kaydedildi. Tercih ettiğiniz{" "}
-              <strong>{form.callWindow.toLowerCase()}</strong> saatlerinde
-              dönüş yapacağız.
+              {formatTry(subtotal)} + KDV / yıl){" "}
+              {deliveryInfo?.referenceId ? `(${deliveryInfo.referenceId}) ` : ""}
+              {deliveryInfo?.customerNotified
+                ? `${form.email} adresinize ve ekibimize iletildi.`
+                : "hazırlandı. Tercih ettiğiniz " +
+                  form.callWindow.toLowerCase() +
+                  " saatlerinde dönüş yapmamız için özeti aşağıdan WhatsApp ile de iletebilirsiniz."}
             </p>
             <a
               href={whatsappSummaryHref}
@@ -418,6 +445,16 @@ export function SummaryView({
               <WhatsAppIcon size={18} />
               <span>Özeti WhatsApp ile Gönder</span>
             </a>
+            {siteConfig.calendlyUrl && (
+              <a
+                href={siteConfig.calendlyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full min-h-[42px] rounded-[8px] border border-[#1E7A46]/35 bg-white text-[#144F2E] text-[13px] font-semibold inline-flex items-center justify-center"
+              >
+                Takvimden Görüşme Saati Seç
+              </a>
+            )}
             <Link
               href={`/tesekkurler?tip=ozet&acente=${encodeURIComponent(
                 form.agencyName.trim()

@@ -5,6 +5,12 @@ export interface TestimonialItem {
   agency: string;
 }
 
+export interface PreviewSlide {
+  src: string;
+  label: string;
+  alt: string;
+}
+
 export const siteConfig = {
   brandName: "TurPilot",
   domain: "turpilot.site",
@@ -16,6 +22,7 @@ export const siteConfig = {
   email: "info@turpilot.site",
   instagramUrl: "https://www.instagram.com/turpilot.site",
   instagramHandle: "@turpilot.site",
+  calendlyUrl: process.env.NEXT_PUBLIC_CALENDLY_URL || "",
   /**
    * Pilot acente yorumları görünürlüğü.
    */
@@ -54,24 +61,85 @@ export const siteConfig = {
    */
   leadEndpoint: process.env.NEXT_PUBLIC_LEAD_WEBHOOK_URL || "/api/lead",
   /**
-   * Gerçek ekran görüntüleri hazır olduğunda public/images/ altına PNG ekleyip
-   * buradaki ilgili anahtara dosya yolunu yazmanız yeterlidir (örn. "/images/admin.png").
-   * null iken kodlanmış gerçekçi TurPilot arayüz önizlemeleri render edilir.
+   * Gerçek ekran görüntüleri eşlemesi (birden fazla görsel için sekmeli/oklu galeri açılır).
    */
   previewAssets: {
-    heroDashboard: null as string | null,
-    publicShowcase: null as string | null,
-    admin: null as string | null,
-    public: null as string | null,
-    hotel: null as string | null,
-    dealer: null as string | null,
-    room: null as string | null,
-    bulk: null as string | null,
-    stops: null as string | null,
-    pdf: null as string | null,
-    whatsapp: null as string | null,
-    refund: null as string | null,
-    pos: null as string | null,
+    heroDashboard: [
+      {
+        src: "/images/admin-dashboard.png",
+        label: "Admin Dashboard",
+        alt: "TurPilot Admin Paneli Dashboard ekranı: toplam tur, aktif turlar, gelir-gider ve yaklaşan seferler",
+      },
+    ],
+    publicShowcase: [
+      {
+        src: "/images/public-hero-mardin.jpg",
+        label: "Ana Vitrin & Slider",
+        alt: "TurPilot Public Site ana vitrin ve şehir slider görünümü",
+      },
+      {
+        src: "/images/public-populer-turlar.jpg",
+        label: "Popüler Turlar & Fiyatlar",
+        alt: "TurPilot Public Site popüler turlar kartları ve kalkış noktası görünümü",
+      },
+    ],
+    admin: [
+      {
+        src: "/images/admin-dashboard.png",
+        label: "Panel & Net Kâr/Zarar",
+        alt: "TurPilot Admin Paneli gelir, gider, net kâr/zarar ve yaklaşan seferler ekranı",
+      },
+    ],
+    public: [
+      {
+        src: "/images/public-populer-turlar.jpg",
+        label: "Tur Kartları & Fiyatlar",
+        alt: "Public Site popüler turlar vitrini",
+      },
+      {
+        src: "/images/public-hero-mardin.jpg",
+        label: "Özel Alan Adı Ana Vitrin",
+        alt: "Public Site tam ekran slider vitrini",
+      },
+    ],
+    hotel: [] as PreviewSlide[],
+    dealer: [] as PreviewSlide[],
+    room: [
+      {
+        src: "/images/oda-gruplandirma.png",
+        label: "Oda Gruplandır & PDF",
+        alt: "TurPilot 29 renkli oda gruplandırma ve kaptan/rehber personel odalama ekranı",
+      },
+    ],
+    bulk: [
+      {
+        src: "/images/toplu-sefer.jpg",
+        label: "Toplu Sefer Takvimi",
+        alt: "TurPilot şablondan çoklu tarih seçerek toplu sefer oluşturma ekranı",
+      },
+    ],
+    stops: [
+      {
+        src: "/images/durak-ozeti.png",
+        label: "Panel Durak Özeti",
+        alt: "TurPilot sefer içi saatli durak özeti görünümü",
+      },
+      {
+        src: "/images/durak-tablo-pdf.png",
+        label: "Durak & Harita Çıktısı",
+        alt: "TurPilot tıklanabilir Google Maps bağlantılı durak ve güzergah raporu",
+      },
+    ],
+    pdf: [
+      {
+        src: "/images/durak-tablo-pdf.png",
+        label: "Durak & Güzergah Çıktısı",
+        alt: "TurPilot yazdırılabilir ve tıklanabilir durak güzergah listesi",
+      },
+    ],
+    whatsapp: [] as PreviewSlide[],
+    refund: [] as PreviewSlide[],
+    pos: [] as PreviewSlide[],
   },
 } as const;
 

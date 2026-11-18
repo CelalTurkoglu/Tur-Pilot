@@ -70,7 +70,7 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
 
     setSubmitting(true);
     try {
-      await fetch(siteConfig.leadEndpoint, {
+      const res = await fetch(siteConfig.leadEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -83,10 +83,19 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
           kvkkAccepted: true,
         }),
       });
+      const json = await res.json().catch(() => null);
+      if (!res.ok || !json?.ok) {
+        setErrorMsg(
+          json?.error ||
+            "Talep iletilemedi; lütfen aşağıdaki WhatsApp bağlantısından bize doğrudan yazın."
+        );
+        return;
+      }
       setSubmitted(true);
     } catch {
-      // Ağ hatasında dahi kullanıcı WhatsApp ile hızlıca devam edebilir
-      setSubmitted(true);
+      setErrorMsg(
+        "Bağlantı hatası oluştu; aşağıdaki WhatsApp bağlantısından bize hemen ulaşabilirsiniz."
+      );
     } finally {
       setSubmitting(false);
     }

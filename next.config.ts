@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
   reactCompiler: true,
@@ -12,6 +11,25 @@ const nextConfig: NextConfig = {
         as: "*.css",
       },
     },
+  },
+  async redirects() {
+    return [
+      {
+        source: "/fiyatlar",
+        destination: "/sistemini-olustur",
+        permanent: true,
+      },
+      {
+        source: "/pricing",
+        destination: "/sistemini-olustur",
+        permanent: true,
+      },
+      {
+        source: "/paketinizi-bulun",
+        destination: "/sistemini-olustur",
+        permanent: true,
+      },
+    ];
   },
 };
 

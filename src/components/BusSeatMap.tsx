@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-type SeatStatus = "free" | "sold" | "deposit";
+type SeatStatus = "free" | "male" | "female";
 type BusLayout = "2+2" | "2+1";
 
 interface SeatInfo {
@@ -12,28 +12,28 @@ interface SeatInfo {
   stop?: string;
 }
 
-const SEAT_DATA_2_2: Record<number, Omit<SeatInfo, "num">> = {
-  1: { status: "sold", passenger: "Ayşe Yılmaz", stop: "Kadıköy · Peşin" },
-  2: { status: "sold", passenger: "Kemal Yılmaz", stop: "Kadıköy · Peşin" },
-  3: { status: "deposit", passenger: "Mehmet Demir", stop: "Mecidiyeköy · Kapora" },
-  4: { status: "deposit", passenger: "Selin Demir", stop: "Mecidiyeköy · Kapora" },
-  5: { status: "sold", passenger: "Can Kaya", stop: "Gebze · Peşin" },
+const SEAT_DATA: Record<number, Omit<SeatInfo, "num">> = {
+  1: { status: "female", passenger: "Ayşe Yılmaz", stop: "Kadıköy" },
+  2: { status: "male", passenger: "Kemal Yılmaz", stop: "Kadıköy" },
+  3: { status: "male", passenger: "Mehmet Demir", stop: "Mecidiyeköy" },
+  4: { status: "female", passenger: "Selin Demir", stop: "Mecidiyeköy" },
+  5: { status: "male", passenger: "Can Kaya", stop: "Gebze" },
   6: { status: "free" },
-  7: { status: "sold", passenger: "Zeynep Ak", stop: "Kadıköy · Peşin" },
-  8: { status: "sold", passenger: "Emre Ak", stop: "Kadıköy · Peşin" },
+  7: { status: "female", passenger: "Zeynep Ak", stop: "Kadıköy" },
+  8: { status: "female", passenger: "Elif Ak", stop: "Kadıköy" },
   9: { status: "free" },
   10: { status: "free" },
-  11: { status: "deposit", passenger: "Fatma Şahin", stop: "İzmit · Kapora" },
+  11: { status: "female", passenger: "Fatma Şahin", stop: "İzmit" },
   12: { status: "free" },
-  13: { status: "sold", passenger: "Burak Öz", stop: "Kadıköy · Peşin" },
-  14: { status: "sold", passenger: "Deniz Öz", stop: "Kadıköy · Peşin" },
-  17: { status: "sold", passenger: "Ali Vural", stop: "İncirli · Peşin" },
-  18: { status: "deposit", passenger: "Ece Vural", stop: "İncirli · Kapora" },
-  21: { status: "sold", passenger: "Mert Kılıç", stop: "Gebze · Peşin" },
-  22: { status: "sold", passenger: "İrem Kılıç", stop: "Gebze · Peşin" },
+  13: { status: "male", passenger: "Burak Öz", stop: "Kadıköy" },
+  14: { status: "male", passenger: "Emre Öz", stop: "Kadıköy" },
+  17: { status: "male", passenger: "Ali Vural", stop: "İncirli" },
+  18: { status: "female", passenger: "Ece Vural", stop: "İncirli" },
+  21: { status: "male", passenger: "Mert Kılıç", stop: "Gebze" },
+  22: { status: "female", passenger: "İrem Kılıç", stop: "Gebze" },
   25: { status: "free" },
-  29: { status: "deposit", passenger: "Hasan Güneş", stop: "İzmit · Kapora" },
-  30: { status: "deposit", passenger: "Ayhan Güneş", stop: "İzmit · Kapora" },
+  29: { status: "male", passenger: "Hasan Güneş", stop: "İzmit" },
+  30: { status: "male", passenger: "Ayhan Güneş", stop: "İzmit" },
 };
 
 // Obilet 2+2 yatay otobüs yerleşimi (12 sütun; orta kapı boşluğu 6. sütun üst sırada)
@@ -85,21 +85,21 @@ function BusSeatButton({
   selected: boolean;
   onSelect: (num: number) => void;
 }) {
-  // Obilet tarzı kolçaklı ve sağdan sırtlıklı koltuk tasarımı
+  // Kolçaklı ve sağdan sırtlıklı koltuk tasarımı
   let fillClass =
     "bg-white border-[#CFD6E0] text-[#34465A] hover:border-[#2457D6]";
   let backStripe = "bg-[#E2E7EE]";
 
   if (selected) {
     fillClass =
-      "bg-[#D9EBFF] border-[#2457D6] text-[#15304C] ring-1 ring-[#2457D6]";
-    backStripe = "bg-[#9EC5FA]";
-  } else if (status === "sold") {
-    fillClass = "bg-[#2457D6] border-[#1A43A8] text-white";
+      "bg-[#2457D6] border-[#15304C] text-white ring-2 ring-[#F2A900]";
     backStripe = "bg-[#1A43A8]";
-  } else if (status === "deposit") {
-    fillClass = "bg-[#FFF4D6] border-[#F2A900] text-[#8A3412]";
-    backStripe = "bg-[#F2A900]/45";
+  } else if (status === "male") {
+    fillClass = "bg-[#DBEAFE] border-[#3B82F6] text-[#1E3A8A]";
+    backStripe = "bg-[#93C5FD]";
+  } else if (status === "female") {
+    fillClass = "bg-[#FCE7F3] border-[#EC4899] text-[#831843]";
+    backStripe = "bg-[#F9A8D4]";
   }
 
   return (
@@ -133,14 +133,14 @@ export function BusSeatMap() {
   const [layout, setLayout] = useState<BusLayout>("2+2");
   const [selectedSeat, setSelectedSeat] = useState<number>(6);
 
-  const seatInfo = SEAT_DATA_2_2[selectedSeat] ?? { status: "free" as SeatStatus };
+  const seatInfo = SEAT_DATA[selectedSeat] ?? { status: "free" as SeatStatus };
 
   const statusText =
-    seatInfo.status === "sold"
-      ? `Dolu · ${seatInfo.passenger} (${seatInfo.stop})`
-      : seatInfo.status === "deposit"
-      ? `Kaporalı · ${seatInfo.passenger} (${seatInfo.stop})`
-      : `Boş koltuk · Seçime ve anlık rezervasyona hazır`;
+    seatInfo.status === "male"
+      ? `Dolu (Erkek) · ${seatInfo.passenger} (${seatInfo.stop})`
+      : seatInfo.status === "female"
+      ? `Dolu (Kadın) · ${seatInfo.passenger} (${seatInfo.stop})`
+      : "Boş koltuk · Seçime ve anlık rezervasyona hazır";
 
   return (
     <div className="bg-white border border-[#DDE2E9] rounded-[14px] p-3.5 sm:p-4 text-[#15304C]">
@@ -185,7 +185,7 @@ export function BusSeatMap() {
         </div>
       </div>
 
-      {/* Yatay Otobüs Gövdesi (Obilet Referanslı) */}
+      {/* Yatay Otobüs Gövdesi */}
       <div className="mt-3 overflow-x-auto pb-1">
         <div className="min-w-[468px] bg-[#F7F8FA] border-[1.5px] border-[#D3DAE4] rounded-l-[28px] rounded-r-[14px] px-3 py-3 flex items-stretch gap-3 relative">
           {/* Ön Kısım: Ön Cam + Direksiyon */}
@@ -222,17 +222,13 @@ export function BusSeatMap() {
                         <>
                           <BusSeatButton
                             num={col.top[0]}
-                            status={
-                              SEAT_DATA_2_2[col.top[0]]?.status ?? "free"
-                            }
+                            status={SEAT_DATA[col.top[0]]?.status ?? "free"}
                             selected={selectedSeat === col.top[0]}
                             onSelect={setSelectedSeat}
                           />
                           <BusSeatButton
                             num={col.top[1]}
-                            status={
-                              SEAT_DATA_2_2[col.top[1]]?.status ?? "free"
-                            }
+                            status={SEAT_DATA[col.top[1]]?.status ?? "free"}
                             selected={selectedSeat === col.top[1]}
                             onSelect={setSelectedSeat}
                           />
@@ -252,7 +248,7 @@ export function BusSeatMap() {
                       {col.top ? (
                         <BusSeatButton
                           num={col.top}
-                          status={SEAT_DATA_2_2[col.top]?.status ?? "free"}
+                          status={SEAT_DATA[col.top]?.status ?? "free"}
                           selected={selectedSeat === col.top}
                           onSelect={setSelectedSeat}
                         />
@@ -274,13 +270,13 @@ export function BusSeatMap() {
                 >
                   <BusSeatButton
                     num={col.bottom[0]}
-                    status={SEAT_DATA_2_2[col.bottom[0]]?.status ?? "free"}
+                    status={SEAT_DATA[col.bottom[0]]?.status ?? "free"}
                     selected={selectedSeat === col.bottom[0]}
                     onSelect={setSelectedSeat}
                   />
                   <BusSeatButton
                     num={col.bottom[1]}
-                    status={SEAT_DATA_2_2[col.bottom[1]]?.status ?? "free"}
+                    status={SEAT_DATA[col.bottom[1]]?.status ?? "free"}
                     selected={selectedSeat === col.bottom[1]}
                     onSelect={setSelectedSeat}
                   />
@@ -303,15 +299,15 @@ export function BusSeatMap() {
             Boş
           </span>
           <span className="inline-flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-[3px] bg-[#2457D6]" />
-            Dolu
+            <span className="w-2.5 h-2.5 rounded-[3px] bg-[#DBEAFE] border border-[#3B82F6]" />
+            Erkek
           </span>
           <span className="inline-flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-[3px] bg-[#FFF4D6] border border-[#F2A900]" />
-            Kapora
+            <span className="w-2.5 h-2.5 rounded-[3px] bg-[#FCE7F3] border border-[#EC4899]" />
+            Kadın
           </span>
           <span className="inline-flex items-center gap-1">
-            <span className="w-2.5 h-2.5 rounded-[3px] bg-[#D9EBFF] border border-[#2457D6]" />
+            <span className="w-2.5 h-2.5 rounded-[3px] bg-[#2457D6] ring-1 ring-[#F2A900]" />
             Seçili
           </span>
         </div>

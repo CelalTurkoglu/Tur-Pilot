@@ -208,6 +208,7 @@ export function ConfiguratorClient() {
     try {
       const res = await fetch(siteConfig.leadEndpoint, {
         method: "POST",
+        signal: AbortSignal.timeout(12000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "configurator_summary",

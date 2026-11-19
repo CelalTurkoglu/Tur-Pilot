@@ -76,6 +76,7 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
     try {
       const res = await fetch(siteConfig.leadEndpoint, {
         method: "POST",
+        signal: AbortSignal.timeout(12000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "demo_call",

@@ -340,6 +340,7 @@ async function sendViaResend(payload: {
 async function trySmtpSend(params: {
   host: string;
   port: number;
+  secure: boolean;
   user: string;
   pass: string;
   from: string;
@@ -350,11 +351,14 @@ async function trySmtpSend(params: {
   const transporter = nodemailer.createTransport({
     host: params.host,
     port: params.port,
-    secure: process.env.SMTP_SECURE === "true" || params.port === 465,
+    secure: params.secure,
     auth: {
       user: params.user,
       pass: params.pass,
     },
+    connectionTimeout: 4000,
+    greetingTimeout: 4000,
+    socketTimeout: 6000,
   });
 
   await transporter.sendMail({
@@ -436,6 +440,7 @@ export async function POST(request: Request) {
     let adminNotified = false;
     let customerNotified = false;
     let formspreeSent = false;
+    let transportDetail = "none";
 
     // 1) Resend API varsa hem info@turpilot.site + celal2004@gmail.com'a hem müşteriye gönder
     if (process.env.RESEND_API_KEY) {
@@ -458,48 +463,55 @@ export async function POST(request: Request) {
             text: built.customerText,
           });
         }
+        transportDetail = "resend";
       } catch (err) {
         console.error("[TurPilot Resend Error]", err);
+        transportDetail = `resend_err:${err instanceof Error ? err.message : "unknown"}`;
       }
     }
 
-    // 2) SMTP_PASS varsa (Google Workspace smtp.gmail.com veya Natro mail.kurumsaleposta.com otomatik algılar)
-    const smtpPass = process.env.SMTP_PASS;
-    const smtpUser = process.env.SMTP_USER || siteConfig.email;
+    // 2) SMTP_PASS (veya EMAIL_APP_PASSWORD) varsa önce smtp.gmail.com:465 SSL ile dene
+    const smtpPass =
+      process.env.SMTP_PASS || process.env.EMAIL_APP_PASSWORD || "";
+    const smtpUser =
+      process.env.SMTP_USER || process.env.EMAIL_USER || siteConfig.email;
     if (!adminNotified && smtpPass) {
-      const candidateHosts = process.env.SMTP_HOST
-        ? [process.env.SMTP_HOST]
-        : ["smtp.gmail.com", "mail.kurumsaleposta.com"];
-      const port = Number(process.env.SMTP_PORT || "587");
+      const host = process.env.SMTP_HOST || "smtp.gmail.com";
+      const port = Number(process.env.SMTP_PORT || "465");
+      const secure =
+        process.env.SMTP_SECURE !== undefined
+          ? process.env.SMTP_SECURE === "true"
+          : port === 465;
 
-      for (const host of candidateHosts) {
-        try {
-          const res = await trySmtpSend({
-            host,
-            port,
-            user: smtpUser,
-            pass: smtpPass,
-            from: fromEmail,
-            adminRecipients,
-            customerEmail: email,
-            built,
-          });
-          adminNotified = res.adminSent;
-          customerNotified = res.customerSent;
-          break;
-        } catch (err) {
-          console.error(`[TurPilot SMTP Error (${host})]`, err);
-        }
+      try {
+        const res = await trySmtpSend({
+          host,
+          port,
+          secure,
+          user: smtpUser,
+          pass: smtpPass,
+          from: fromEmail,
+          adminRecipients,
+          customerEmail: email,
+          built,
+        });
+        adminNotified = res.adminSent;
+        customerNotified = res.customerSent;
+        transportDetail = `smtp:${host}:${port}`;
+      } catch (err) {
+        console.error(`[TurPilot SMTP Error (${host}:${port})]`, err);
+        transportDetail = `smtp_err:${err instanceof Error ? err.message : "unknown"}`;
       }
     }
 
-    // 3) Mevcut Formspree kanalına da otomatik yedek bildirim gönder
+    // 3) Mevcut Formspree kanalına da otomatik yedek bildirim gönder (4.5s timeout ile)
     const formspreeUrl =
       process.env.FORMSPREE_URL || siteConfig.formspreeFallbackUrl;
     if (formspreeUrl) {
       try {
         const fsRes = await fetch(formspreeUrl, {
           method: "POST",
+          signal: AbortSignal.timeout(4500),
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -535,6 +547,7 @@ export async function POST(request: Request) {
       emailDelivered,
       adminNotified: adminNotified || formspreeSent,
       customerNotified,
+      transportDetail,
     });
   } catch {
     return NextResponse.json(

@@ -1,6 +1,28 @@
 import { NextResponse } from "next/server";
+import dns from "node:dns";
 import nodemailer from "nodemailer";
 import { siteConfig } from "@/config/siteConfig";
+
+function cleanEnv(val?: string): string {
+  if (!val) return "";
+  return val.trim().replace(/^["']+|["']+$/g, "").trim();
+}
+
+function findGoogleScriptUrl(): string {
+  const direct = cleanEnv(
+    process.env.GOOGLE_SCRIPT_MAIL_URL ||
+      process.env.GOOGLE_SCRIPT_URL ||
+      process.env.APPS_SCRIPT_URL
+  );
+  if (direct) return direct;
+  for (const [, v] of Object.entries(process.env)) {
+    const cleaned = cleanEnv(v);
+    if (cleaned.includes("script.google.com/macros/s/")) {
+      return cleaned;
+    }
+  }
+  return "";
+}
 import {
   calculatePackageTotals,
   CONFIG_STEPS,
@@ -359,7 +381,13 @@ async function trySmtpSend(params: {
     connectionTimeout: 2500,
     greetingTimeout: 2500,
     socketTimeout: 4000,
-  });
+    dnsTimeout: 2000,
+    lookup: (hostname, _options, callback) => {
+      dns.lookup(hostname, { family: 4 }, (err, address, family) => {
+        callback(err, address, family);
+      });
+    },
+  } as nodemailer.TransportOptions);
 
   await transporter.sendMail({
     from: params.from,
@@ -440,16 +468,17 @@ export async function POST(request: Request) {
     let adminNotified = false;
     let customerNotified = false;
     let formspreeSent = false;
-    let transportDetail = "none";
+    const diagnostics: string[] = [];
 
-    // 1) Google Apps Script HTTPS Relay (Railway SMTP port engelini HTTPS 443 üzerinden aşar, doğrudan info@turpilot.site Gmail hesabından gönderir)
-    const googleScriptUrl = process.env.GOOGLE_SCRIPT_MAIL_URL;
+    // 1) Google Apps Script HTTPS Relay (Railway SMTP port engelini HTTPS 443 üzerinden aşar)
+    const googleScriptUrl = findGoogleScriptUrl();
     if (googleScriptUrl) {
       try {
         const gsAdmin = await fetch(googleScriptUrl, {
           method: "POST",
-          signal: AbortSignal.timeout(6000),
-          headers: { "Content-Type": "application/json" },
+          redirect: "follow",
+          signal: AbortSignal.timeout(8000),
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify({
             to: adminRecipients.join(","),
             replyTo: email || siteConfig.email,
@@ -458,13 +487,22 @@ export async function POST(request: Request) {
             text: built.adminText,
           }),
         });
-        adminNotified = gsAdmin.ok;
+        const gsAdminText = await gsAdmin.text();
+        const isOk =
+          gsAdmin.ok &&
+          (gsAdminText.includes('"ok":true') ||
+            gsAdminText.includes('"ok": true'));
+        adminNotified = isOk;
+        diagnostics.push(
+          `gs_admin:${gsAdmin.status}:${gsAdminText.slice(0, 120)}`
+        );
 
-        if (email) {
+        if (isOk && email) {
           const gsCust = await fetch(googleScriptUrl, {
             method: "POST",
-            signal: AbortSignal.timeout(6000),
-            headers: { "Content-Type": "application/json" },
+            redirect: "follow",
+            signal: AbortSignal.timeout(8000),
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
               to: email,
               replyTo: siteConfig.email,
@@ -473,16 +511,26 @@ export async function POST(request: Request) {
               text: built.customerText,
             }),
           });
-          customerNotified = gsCust.ok;
+          const gsCustText = await gsCust.text();
+          customerNotified =
+            gsCust.ok &&
+            (gsCustText.includes('"ok":true') ||
+              gsCustText.includes('"ok": true'));
+          diagnostics.push(`gs_cust:${gsCust.status}`);
         }
-        transportDetail = "google_script_https";
       } catch (err) {
         console.error("[TurPilot Google Script Relay Error]", err);
+        diagnostics.push(
+          `gs_err:${err instanceof Error ? err.message : "unknown"}`
+        );
       }
+    } else {
+      diagnostics.push("gs:not_configured");
     }
 
     // 2) Resend API varsa hem info@turpilot.site + celal2004@gmail.com'a hem müşteriye gönder
-    if (!adminNotified && process.env.RESEND_API_KEY) {
+    const resendKey = cleanEnv(process.env.RESEND_API_KEY);
+    if (!adminNotified && resendKey) {
       try {
         adminNotified = await sendViaResend({
           from: fromEmail,
@@ -502,24 +550,28 @@ export async function POST(request: Request) {
             text: built.customerText,
           });
         }
-        transportDetail = "resend";
+        diagnostics.push("resend:ok");
       } catch (err) {
         console.error("[TurPilot Resend Error]", err);
-        transportDetail = `resend_err:${err instanceof Error ? err.message : "unknown"}`;
+        diagnostics.push(
+          `resend_err:${err instanceof Error ? err.message : "unknown"}`
+        );
       }
     }
 
-    // 2) SMTP_PASS (veya EMAIL_APP_PASSWORD) varsa önce smtp.gmail.com:465 SSL ile dene
-    const smtpPass =
-      process.env.SMTP_PASS || process.env.EMAIL_APP_PASSWORD || "";
+    // 3) SMTP_PASS (veya EMAIL_APP_PASSWORD) varsa IPv4 ile smtp.gmail.com:465 SSL dene
+    const smtpPass = cleanEnv(
+      process.env.SMTP_PASS || process.env.EMAIL_APP_PASSWORD
+    );
     const smtpUser =
-      process.env.SMTP_USER || process.env.EMAIL_USER || siteConfig.email;
+      cleanEnv(process.env.SMTP_USER || process.env.EMAIL_USER) ||
+      siteConfig.email;
     if (!adminNotified && smtpPass) {
-      const host = process.env.SMTP_HOST || "smtp.gmail.com";
-      const port = Number(process.env.SMTP_PORT || "465");
+      const host = cleanEnv(process.env.SMTP_HOST) || "smtp.gmail.com";
+      const port = Number(cleanEnv(process.env.SMTP_PORT) || "465");
       const secure =
         process.env.SMTP_SECURE !== undefined
-          ? process.env.SMTP_SECURE === "true"
+          ? cleanEnv(process.env.SMTP_SECURE) === "true"
           : port === 465;
 
       try {
@@ -536,10 +588,12 @@ export async function POST(request: Request) {
         });
         adminNotified = res.adminSent;
         customerNotified = res.customerSent;
-        transportDetail = `smtp:${host}:${port}`;
+        diagnostics.push(`smtp:${host}:${port}:ok`);
       } catch (err) {
         console.error(`[TurPilot SMTP Error (${host}:${port})]`, err);
-        transportDetail = `smtp_err:${err instanceof Error ? err.message : "unknown"}`;
+        diagnostics.push(
+          `smtp_err:${err instanceof Error ? err.message : "unknown"}`
+        );
       }
     }
 
@@ -586,7 +640,7 @@ export async function POST(request: Request) {
       emailDelivered,
       adminNotified: adminNotified || formspreeSent,
       customerNotified,
-      transportDetail,
+      transportDetail: diagnostics.join(" | "),
     });
   } catch {
     return NextResponse.json(

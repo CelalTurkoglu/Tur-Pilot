@@ -21,6 +21,8 @@ export const siteConfig = {
   whatsappNumber: "908508853455",
   email: "info@turpilot.site",
   notifyEmails: ["info@turpilot.site", "celal2004@gmail.com"],
+  googleScriptMailUrl:
+    "https://script.google.com/macros/s/AKfycbyk9XLXCubehm4N3CJxc8eWsX_b5L2tAxkQrawqq-eMWFs559NC0YeIQOb6TJh3S-YG/exec",
   formspreeFallbackUrl: "https://formspree.io/f/mnjqazgp",
   instagramUrl: "https://www.instagram.com/turpilot.site",
   instagramHandle: "@turpilot.site",

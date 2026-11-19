@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import dns from "node:dns";
 import nodemailer from "nodemailer";
 import { siteConfig } from "@/config/siteConfig";
 
@@ -21,7 +20,7 @@ function findGoogleScriptUrl(): string {
       return cleaned;
     }
   }
-  return "";
+  return siteConfig.googleScriptMailUrl;
 }
 import {
   calculatePackageTotals,
@@ -381,13 +380,7 @@ async function trySmtpSend(params: {
     connectionTimeout: 2500,
     greetingTimeout: 2500,
     socketTimeout: 4000,
-    dnsTimeout: 2000,
-    lookup: (hostname, _options, callback) => {
-      dns.lookup(hostname, { family: 4 }, (err, address, family) => {
-        callback(err, address, family);
-      });
-    },
-  } as nodemailer.TransportOptions);
+  });
 
   await transporter.sendMail({
     from: params.from,

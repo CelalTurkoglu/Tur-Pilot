@@ -22,8 +22,11 @@ const SEVEN_ADDONS: ModuleId[] = [
 
 test("Resmi 11 modül ve varsayılan siteConfig bayrakları doğrulanır", () => {
   assert.equal(MODULES.length, 11);
+  assert.equal(siteConfig.appDomain, "app.turpilot.site/acenteniz");
   assert.equal(siteConfig.showTestimonials, true);
   assert.equal(siteConfig.testimonials.length, 3);
+  assert.ok(siteConfig.notifyEmails.includes("info@turpilot.site"));
+  assert.ok(siteConfig.notifyEmails.includes("celal2004@gmail.com"));
   assert.equal(siteConfig.vatRate, 0.2);
   assert.equal(siteConfig.showVatBreakdown, true);
   assert.equal(siteConfig.phoneDisplay, "+90 850 885 3455");
@@ -31,12 +34,20 @@ test("Resmi 11 modül ve varsayılan siteConfig bayrakları doğrulanır", () =>
   assert.equal(siteConfig.email, "info@turpilot.site");
 });
 
+test("B2B Otel Satış ve Sanal POS modülleri Public Site seçilmeden pakete eklenemez", () => {
+  const withoutPublic = calculatePackageTotals(["admin", "hotel", "pos"]);
+  assert.equal(withoutPublic.subtotal, 30000);
+  assert.equal(
+    withoutPublic.selectedModules.some((m) => m.id === "hotel" || m.id === "pos"),
+    false
+  );
+
+  const withPublic = calculatePackageTotals(["admin", "public", "hotel", "pos"]);
+  assert.equal(withPublic.subtotal, 30000 + 15000 + 14000 + 2000);
+});
+
 test("Resmi fiyatlandırma kombinasyonları eksiksiz tutar", () => {
   assert.equal(calculatePackageTotals(["admin"]).subtotal, 30000);
-  assert.equal(
-    calculatePackageTotals(["admin", ...SEVEN_ADDONS]).subtotal,
-    45000
-  );
   assert.equal(calculatePackageTotals(["admin", "public"]).subtotal, 45000);
   assert.equal(
     calculatePackageTotals(["admin", "public", ...SEVEN_ADDONS]).subtotal,
@@ -66,13 +77,13 @@ test("WhatsApp özet metni seçili modülleri, acente adını ve tutarı içerir
     contactName: "Ahmet Yılmaz",
     phone: "0532 000 00 00",
     email: "ahmet@anadolutur.com",
-    callWindow: "Sabah",
   });
   assert.match(msg, /Anadolu Turizm/);
   assert.match(msg, /Admin Paneli/);
   assert.match(msg, /Public Site/);
   assert.match(msg, /B2B Otel Satış/);
   assert.match(msg, /59\.000 ₺/);
+  assert.equal(msg.includes("Görüşme zamanı"), false);
 });
 
 test("src dosyalarında yer tutucu veya yasaklı ifade bulunmaz", () => {
@@ -85,6 +96,12 @@ test("src dosyalarında yer tutucu veya yasaklı ifade bulunmaz", () => {
     "Privacy policy",
     "dükkanlar",
     "e-imza",
+    "admin.turpilot.com.tr",
+    "Excel ve defter",
+    "Excel veya defter",
+    "Excel/defter",
+    "defterinizin",
+    "defterlerinizi",
   ];
 
   const srcRoot = path.resolve(process.cwd(), "src");

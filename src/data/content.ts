@@ -64,7 +64,7 @@ export const HOME_CONTENT = {
   ],
   trustStrip: [
     "Tarayıcıdan kurulumsuz erişim",
-    "Mevcut Excel ve defter aktarımı bizden",
+    "Mevcut Excel verilerinizin aktarımı bizden",
     "İlk turunuzu birlikte kuruyoruz",
     "Otobüs turu odaklı arayüz",
     "İhtiyaca göre A La Carte modüller",
@@ -73,11 +73,11 @@ export const HOME_CONTENT = {
   migration: {
     heading: "Çalışan düzeninizi bozmadan geçin",
     subtitle:
-      "Eski defterlerinizi ya da karmaşık Excel tablolarınızı tek seferde toparlayalım; ekibiniz ilk turdan itibaren aynı ekrandan çalışsın.",
+      "Farklı dosyalara dağılmış Excel tablolarınızı ve yolcu listelerinizi tek seferde sisteme aktaralım; ekibiniz ilk turdan itibaren aynı ekrandan çalışsın.",
     steps: [
       {
         step: "1. Kayıtlarınızı gönderin",
-        body: "Mevcut Excel dosyanızı ya da defterinizin fotoğrafını bize gönderin.",
+        body: "Mevcut Excel dosyalarınızı ve aktif tur listelerinizi bize gönderin.",
       },
       {
         step: "2. Biz kuruyoruz",
@@ -109,9 +109,9 @@ export const HOME_FAQS: FaqItem[] = [
       "Hayır. TurPilot %100 bulut tabanlıdır ve tarayıcıdan kurulum gerektirmeden açılır; bilgisayarınıza hiçbir program yüklemeniz gerekmez. İlk turunuzu ekran paylaşımıyla birlikte kuruyoruz.",
   },
   {
-    question: "Mevcut Excel ve defter kayıtlarım ne olacak?",
+    question: "Mevcut Excel kayıtlarım ve yolcu listelerim ne olacak?",
     answer:
-      "Excel dosyanızı ya da defterinizin fotoğrafını gönderin; aktif tur şablonlarınızı ve yolcu kayıtlarınızı sisteme biz aktarıyoruz.",
+      "Mevcut Excel dosyalarınızı ve yolcu tablolarınızı bize gönderin; aktif tur şablonlarınızı ve yolcu kayıtlarınızı sisteme biz aktarıyoruz.",
   },
   {
     question:
@@ -387,7 +387,7 @@ export const LEGAL_PAGES = {
       },
       {
         heading: "2. Bilgilerin Kullanım Amacı",
-        body: "Toplanan iletişim ve paket bilgileri; talep ettiğiniz ürün demosunu planlamak, mevcut Excel/defter kayıtlarınızın aktarım kapsamını belirlemek ve sözleşme öncesi teknik teklif sunmak için kullanılır. Bilgileriniz üçüncü taraflara pazarlama amacıyla satılmaz veya devredilmez.",
+        body: "Toplanan iletişim ve paket bilgileri; talep ettiğiniz ürün demosunu planlamak, mevcut Excel kayıtlarınızın aktarım kapsamını belirlemek ve sözleşme öncesi teknik teklif sunmak için kullanılır. Bilgileriniz üçüncü taraflara pazarlama amacıyla satılmaz veya devredilmez.",
       },
       {
         heading: "3. Veri Güvenliği",

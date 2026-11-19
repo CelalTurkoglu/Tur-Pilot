@@ -13,14 +13,13 @@ import {
   type ConfigModule,
   type ModuleId,
 } from "@/data/modules";
-import { CheckIcon, WhatsAppIcon } from "@/components/Icons";
+import { CheckIcon, TurPilotMark, WhatsAppIcon } from "@/components/Icons";
 
 export interface SummaryFormState {
   contactName: string;
   agencyName: string;
   phone: string;
   email: string;
-  callWindow: string;
   kvkkAccepted: boolean;
 }
 
@@ -74,7 +73,6 @@ export function SummaryView({
       contactName: form.contactName.trim() || "Belirtilmedi",
       phone: form.phone.trim() || "Belirtilmedi",
       email: form.email.trim() || "Belirtilmedi",
-      callWindow: form.callWindow,
       includeVat: siteConfig.showVatBreakdown,
     })
   );
@@ -255,18 +253,6 @@ export function SummaryView({
                 className="h-[46px] rounded-[10px] border border-[#AEB7C4] px-3 text-[16px] font-normal text-[#15304C] bg-white"
               />
             </label>
-            <label className="flex flex-col gap-1.5 text-[14px] font-semibold text-[#15304C]">
-              Görüşme zamanı
-              <select
-                value={form.callWindow}
-                onChange={(e) => onFormChange({ callWindow: e.target.value })}
-                className="h-[46px] rounded-[10px] border border-[#AEB7C4] px-3 text-[16px] font-normal text-[#15304C] bg-white"
-              >
-                <option value="Sabah">Sabah</option>
-                <option value="Öğleden sonra">Öğleden sonra</option>
-                <option value="Akşam">Akşam</option>
-              </select>
-            </label>
           </div>
 
           <label className="mt-4 flex items-start gap-2.5 text-[13px] leading-snug text-[#34465A] cursor-pointer">
@@ -298,44 +284,137 @@ export function SummaryView({
             </div>
           )}
 
+          {/* Gönderim sonrası resmi TurPilot Paket Özeti Belgesi */}
           {submitted && (
             <div
               role="status"
-              className="lg:hidden mt-4 bg-[#E6F3EB] text-[#144F2E] border border-[#B7DFC7] rounded-[14px] p-4 space-y-3"
+              className="mt-6 rounded-[16px] border-2 border-[#2457D6] bg-[#F8FAFC] overflow-hidden"
             >
-              <div className="flex items-center gap-2 font-bold text-[16px]">
-                <CheckIcon size={18} />
-                <span>
-                  Özet hazırland{deliveryInfo?.referenceId ? ` (${deliveryInfo.referenceId})` : "ı"}
-                </span>
+              <div className="bg-[#15304C] text-white px-4 sm:px-5 py-3.5 flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2.5">
+                  <TurPilotMark inverted />
+                  <span className="text-[12px] px-2.5 py-0.5 rounded-full bg-[#F2A900] text-[#15304C] font-bold">
+                    Ön Talep & Paket Özeti
+                  </span>
+                </div>
+                {deliveryInfo?.referenceId && (
+                  <span className="text-[12px] font-mono text-[#C3CEDC]">
+                    Ref: {deliveryInfo.referenceId}
+                  </span>
+                )}
               </div>
-              <p className="text-[14px] leading-snug">
-                <strong>{form.agencyName}</strong> için seçtiğiniz{" "}
-                {selectedItems.length} modüllük yapılandırma (
-                {formatTry(subtotal)} + KDV / yıl) kaydedildi.{" "}
-                {deliveryInfo?.customerNotified
-                  ? `Detaylı özet ${form.email} adresinize ve ekibimize iletildi.`
-                  : "Doğrudan ekibimize ulaşmak için aşağıdaki WhatsApp butonuna basarak özeti tek tıkla gönderebilirsiniz."}
-              </p>
-              <a
-                href={whatsappSummaryHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full min-h-[46px] rounded-[10px] bg-[#1E7A46] text-white font-bold text-[14px] inline-flex items-center justify-center gap-2"
-              >
-                <WhatsAppIcon size={18} />
-                <span>Özeti WhatsApp ile Gönder</span>
-              </a>
-              {siteConfig.calendlyUrl && (
-                <a
-                  href={siteConfig.calendlyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full min-h-[44px] rounded-[10px] border border-[#1E7A46]/35 bg-white text-[#144F2E] font-semibold text-[14px] inline-flex items-center justify-center"
-                >
-                  Takvimden Görüşme Saati Seç
-                </a>
-              )}
+
+              <div className="p-4 sm:p-5 space-y-4">
+                <div className="rounded-[12px] bg-[#E6F3EB] border border-[#B7DFC7] p-3.5 text-[#144F2E]">
+                  <div className="flex items-center gap-2 font-bold text-[15px]">
+                    <CheckIcon size={18} />
+                    <span>
+                      Paket özetiniz ve görüşme talebiniz oluşturuldu
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[13px] leading-relaxed">
+                    {deliveryInfo?.customerNotified ? (
+                      <>
+                        Detaylı paket tablonuz{" "}
+                        <strong>{form.email}</strong> adresinize ve{" "}
+                        <strong>info@turpilot.site</strong> ekibimize e-posta
+                        olarak gönderildi.
+                      </>
+                    ) : (
+                      <>
+                        Talebiniz TurPilot ekibine kaydedildi. Ayrıca aşağıdaki
+                        butonla tüm paket özetinizi tek tıkla WhatsApp üzerinden
+                        de paylaşabilirsiniz.
+                      </>
+                    )}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-[13px]">
+                  <div className="bg-white border border-[#DDE2E9] rounded-[10px] p-2.5">
+                    <div className="text-[11px] text-[#5A6472]">Acente</div>
+                    <div className="font-bold text-[#15304C] truncate">
+                      {form.agencyName}
+                    </div>
+                  </div>
+                  <div className="bg-white border border-[#DDE2E9] rounded-[10px] p-2.5">
+                    <div className="text-[11px] text-[#5A6472]">Yetkili</div>
+                    <div className="font-bold text-[#15304C] truncate">
+                      {form.contactName}
+                    </div>
+                  </div>
+                  <div className="bg-white border border-[#DDE2E9] rounded-[10px] p-2.5">
+                    <div className="text-[11px] text-[#5A6472]">Telefon</div>
+                    <div className="font-bold text-[#15304C] truncate">
+                      {form.phone}
+                    </div>
+                  </div>
+                  <div className="bg-white border border-[#DDE2E9] rounded-[10px] p-2.5">
+                    <div className="text-[11px] text-[#5A6472]">E-posta</div>
+                    <div className="font-bold text-[#15304C] truncate">
+                      {form.email}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white border border-[#DDE2E9] rounded-[12px] p-3.5">
+                  <div className="text-[12px] font-bold uppercase tracking-wider text-[#2457D6] mb-2">
+                    Seçilen Paket İçeriği ({selectedItems.length} Modül)
+                  </div>
+                  <div className="divide-y divide-[#E8ECF2] text-[13px]">
+                    {selectedItems.map((m) => (
+                      <div
+                        key={m.id}
+                        className="py-1.5 flex items-center justify-between gap-2"
+                      >
+                        <span className="font-medium text-[#15304C]">
+                          {m.name}
+                        </span>
+                        <span className="font-semibold text-[#15304C] tabular-nums whitespace-nowrap">
+                          {formatTry(m.price)} / yıl
+                        </span>
+                      </div>
+                    ))}
+                    <div className="py-1.5 flex items-center justify-between gap-2">
+                      <span className="font-medium text-[#34465A]">
+                        Kurulum ve Excel veri aktarımı
+                      </span>
+                      <span className="font-bold text-[#1E7A46]">
+                        Dahil (Ücretsiz)
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-2.5 pt-2.5 border-t border-[#DDE2E9] flex flex-wrap items-baseline justify-between gap-2 tabular-nums">
+                    <span className="text-[13px] text-[#5A6472]">
+                      Ara toplam: <strong>{formatTry(subtotal)}</strong> + %20
+                      KDV ({formatTry(vatAmount)})
+                    </span>
+                    <span className="text-[16px] font-bold text-[#15304C]">
+                      Yıllık Toplam: {formatTry(grandTotal)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-2.5">
+                  <a
+                    href={whatsappSummaryHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 min-h-[46px] rounded-[10px] bg-[#1E7A46] hover:opacity-95 text-white font-bold text-[14px] inline-flex items-center justify-center gap-2"
+                  >
+                    <WhatsAppIcon size={18} />
+                    <span>Özeti WhatsApp ile Gönder</span>
+                  </a>
+                  <Link
+                    href={`/tesekkurler?tip=ozet&acente=${encodeURIComponent(
+                      form.agencyName.trim()
+                    )}&toplam=${subtotal}`}
+                    className="min-h-[46px] px-4 rounded-[10px] border border-[#DDE2E9] bg-white hover:bg-[#F2F4F7] text-[#15304C] text-[14px] font-semibold inline-flex items-center justify-center"
+                  >
+                    Tam Ekran Onay Sayfası
+                  </Link>
+                </div>
+              </div>
             </div>
           )}
         </section>
@@ -420,21 +499,19 @@ export function SummaryView({
             <div className="flex items-center gap-2 font-bold text-[16px]">
               <CheckIcon size={18} />
               <span>
-                {deliveryInfo?.emailDelivered
+                {deliveryInfo?.customerNotified
                   ? "Özet e-posta ile gönderildi"
-                  : "Özet talebiniz hazır"}
+                  : "Özet talebiniz alındı"}
               </span>
             </div>
             <p className="text-[14px] leading-snug">
-              <strong>{form.agencyName}</strong> için seçtiğiniz{" "}
-              {selectedItems.length} modüllük yapılandırma (
+              <strong>{form.agencyName}</strong> için{" "}
+              {selectedItems.length} modüllük paket özetiniz (
               {formatTry(subtotal)} + KDV / yıl){" "}
               {deliveryInfo?.referenceId ? `(${deliveryInfo.referenceId}) ` : ""}
               {deliveryInfo?.customerNotified
-                ? `${form.email} adresinize ve ekibimize iletildi.`
-                : "hazırlandı. Tercih ettiğiniz " +
-                  form.callWindow.toLowerCase() +
-                  " saatlerinde dönüş yapmamız için özeti aşağıdan WhatsApp ile de iletebilirsiniz."}
+                ? `hem ${form.email} adresinize hem de TurPilot ekibine iletildi.`
+                : "kaydedildi ve TurPilot ekibine bildirildi."}
             </p>
             <a
               href={whatsappSummaryHref}
@@ -445,24 +522,6 @@ export function SummaryView({
               <WhatsAppIcon size={18} />
               <span>Özeti WhatsApp ile Gönder</span>
             </a>
-            {siteConfig.calendlyUrl && (
-              <a
-                href={siteConfig.calendlyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full min-h-[42px] rounded-[8px] border border-[#1E7A46]/35 bg-white text-[#144F2E] text-[13px] font-semibold inline-flex items-center justify-center"
-              >
-                Takvimden Görüşme Saati Seç
-              </a>
-            )}
-            <Link
-              href={`/tesekkurler?tip=ozet&acente=${encodeURIComponent(
-                form.agencyName.trim()
-              )}&toplam=${subtotal}`}
-              className="w-full min-h-[40px] rounded-[8px] border border-[#1E7A46]/30 bg-white text-[#144F2E] text-[13px] font-semibold inline-flex items-center justify-center"
-            >
-              Onay Ekranını Görüntüle
-            </Link>
           </div>
         )}
       </aside>

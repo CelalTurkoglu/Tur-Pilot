@@ -20,6 +20,7 @@ export interface ConfigModule {
   shortName: string;
   price: number;
   locked?: boolean;
+  requiresModule?: ModuleId;
   pain: string;
   solution: string;
   bullets: [string, string, string];
@@ -48,7 +49,7 @@ export const MODULES: ConfigModule[] = [
     shortName: "Admin Paneli",
     price: 30000,
     locked: true,
-    pain: "Sefer, koltuk ve ödemeler defter ve Excel’e dağılmış; aynı koltuğa çifte kayıt riski var.",
+    pain: "Sefer, koltuk ve ödemeler farklı Excel dosyalarına ve mesajlara dağılmış; aynı koltuğa çifte kayıt riski var.",
     solution:
       "Tüm operasyon, 2+1/2+2 koltuk planı ve ön muhasebe tek bulut panelde.",
     bullets: [
@@ -78,6 +79,7 @@ export const MODULES: ConfigModule[] = [
     name: "B2B Otel Satış",
     shortName: "B2B Otel Satış",
     price: 14000,
+    requiresModule: "public",
     pain: "Otel kontratları, sezonluk oda çarpanları ve stop-sale takibi karmaşık Excel’lerde dağılıyor.",
     solution:
       "Otel tanımlama, sezonluk kontrat matrisi, kontenjan ve satış yönetimi tek modülde.",
@@ -198,6 +200,7 @@ export const MODULES: ConfigModule[] = [
     name: "Sanal POS Taksit Yönetimi",
     shortName: "Sanal POS Taksit",
     price: 2000,
+    requiresModule: "public",
     pain: "Kredi kartı taksit vade farkları ve POS API ayarları ayrı ayrı yönetiliyor.",
     solution:
       "Kendi İyzico, PayTR veya Nkolay hesabınızı bağlayıp 1–12 taksit komisyon matrisini yönetin.",
@@ -253,7 +256,7 @@ export const CONFIG_STEPS: ConfigStep[] = [
 ];
 
 export const MIGRATION_SLA_TEXT =
-  "Mevcut Excel veya defter kayıtlarınızın tesliminden itibaren ortalama 2–3 iş günü içinde canlıya geçiş.";
+  "Mevcut Excel listelerinizin tesliminden itibaren ortalama 2–3 iş günü içinde canlıya geçiş.";
 
 export const MIGRATION_TIMELINE: TimelineEntry[] = [
   {
@@ -264,7 +267,7 @@ export const MIGRATION_TIMELINE: TimelineEntry[] = [
   {
     day: "Gün 1",
     label: "Kayıt teslimi",
-    note: "Mevcut Excel veya defter fotoğraflarını iletirsiniz",
+    note: "Mevcut Excel dosyalarınızı ve tur listelerinizi iletirsiniz",
   },
   {
     day: "Gün 2",
@@ -309,7 +312,11 @@ export function calculatePackageTotals(
   const selectedSet = new Set<ModuleId>(selectedIds);
   selectedSet.add("admin");
 
-  const selectedModules = MODULES.filter((m) => selectedSet.has(m.id));
+  const selectedModules = MODULES.filter(
+    (m) =>
+      selectedSet.has(m.id) &&
+      (!m.requiresModule || selectedSet.has(m.requiresModule))
+  );
   const subtotal = selectedModules.reduce((sum, m) => sum + m.price, 0);
   const vatAmount = Math.round(subtotal * vatRate);
   const grandTotal = subtotal + vatAmount;
@@ -329,7 +336,6 @@ export function buildSummaryWhatsappText(params: {
   contactName: string;
   phone: string;
   email: string;
-  callWindow: string;
   includeVat?: boolean;
 }): string {
   const { selectedModules, subtotal, vatAmount, grandTotal } =
@@ -343,7 +349,6 @@ export function buildSummaryWhatsappText(params: {
     `Yetkili: ${params.contactName || "-"}`,
     `Telefon: ${params.phone || "-"}`,
     `E-posta: ${params.email || "-"}`,
-    `Görüşme zamanı: ${params.callWindow || "Sabah"}`,
     "",
     "Seçilen Modüller:",
     ...selectedModules.map((m) => `- ${m.name}: ${formatTry(m.price)} / yıl`),

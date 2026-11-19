@@ -14,11 +14,15 @@ import { ModulePreviewFrame } from "@/components/PreviewMockups";
 export function MobileDetailSheet({
   moduleItem,
   isSelected,
+  isLockedByDependency = false,
+  onJumpToPublicStep,
   onToggle,
   onClose,
 }: {
   moduleItem: ConfigModule | null;
   isSelected: boolean;
+  isLockedByDependency?: boolean;
+  onJumpToPublicStep?: () => void;
   onToggle: (id: ModuleId) => void;
   onClose: () => void;
 }) {
@@ -80,6 +84,14 @@ export function MobileDetailSheet({
             </span>
           </div>
 
+          {isLockedByDependency && (
+            <div className="mt-2.5 rounded-[10px] bg-[#FFF4D6] border border-[#F2A900] px-3 py-2 text-[13px] font-medium text-[#8A3412]">
+              Bu özellik <strong>Public Site (Acenteye Özel B2C Vitrin)</strong>{" "}
+              ile birlikte çalışır. Seçebilmek için önce 1. duraktan Public Site
+              modülünü ekleyin.
+            </div>
+          )}
+
           <div className="mt-3 space-y-2">
             <div className="bg-[#FCEFE8] rounded-[10px] px-3 py-2.5">
               <div className="text-[12px] font-bold text-[#8A3412]">Sorun</div>
@@ -107,6 +119,22 @@ export function MobileDetailSheet({
             <div className="min-h-[48px] flex items-center justify-center gap-2 rounded-[10px] bg-[#E8ECF2] text-[#34465A] text-[14px] font-semibold">
               <LockIcon size={16} />
               <span>Her pakete dahil</span>
+            </div>
+          ) : isLockedByDependency ? (
+            <div className="flex flex-col gap-2">
+              <div className="min-h-[44px] flex items-center justify-center gap-2 rounded-[10px] bg-[#E8ECF2] text-[#5A6472] text-[13px] font-semibold">
+                <LockIcon size={15} />
+                <span>Public Site seçildiğinde aktif olur</span>
+              </div>
+              {onJumpToPublicStep && (
+                <button
+                  type="button"
+                  onClick={onJumpToPublicStep}
+                  className="w-full min-h-[44px] rounded-[10px] border border-[#2457D6] text-[#2457D6] text-[14px] font-bold cursor-pointer"
+                >
+                  1. Durağa Git (Public Site Ekle)
+                </button>
+              )}
             </div>
           ) : (
             <button

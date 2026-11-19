@@ -15,11 +15,13 @@ export const siteConfig = {
   brandName: "TurPilot",
   domain: "turpilot.site",
   siteUrl: "https://turpilot.site",
-  appDomain: "admin.turpilot.com.tr/dashboard",
+  appDomain: "app.turpilot.site/acenteniz",
   phoneDisplay: "+90 850 885 3455",
   phoneHref: "tel:+908508853455",
   whatsappNumber: "908508853455",
   email: "info@turpilot.site",
+  notifyEmails: ["info@turpilot.site", "celal2004@gmail.com"],
+  formspreeFallbackUrl: "https://formspree.io/f/mnjqazgp",
   instagramUrl: "https://www.instagram.com/turpilot.site",
   instagramHandle: "@turpilot.site",
   calendlyUrl: process.env.NEXT_PUBLIC_CALENDLY_URL || "",
@@ -30,7 +32,7 @@ export const siteConfig = {
   testimonials: [
     {
       quote:
-        "Önceden iki personel telefonda aynı koltuğu yazınca akşam liste düzeltmekle uğraşıyorduk. Şimdi herkes aynı ekrana bakıyor, kapora kimde kalmış hemen görünüyor.",
+        "Turlardaki kahvaltı ve ATV gibi ekstra etkinlikleri yolculara tek bir link üzerinden sunmaya başladıktan sonra çok güzel geri dönüşler aldık. Yolcular daha tura çıkmadan düzenli ve teknolojik bir acenteyle çalıştıklarını hissediyor.",
       author: "Hakan Demir",
       role: "Acente Sahibi",
       agency: "Karadeniz Rota Turizm",

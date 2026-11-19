@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.brandName,
     title: "TurPilot — Otobüsleriniz dolsun, akşam masa başı bitsin.",
     description:
-      "Rezervasyon, koltuk, kapora ve tur içi gelir-gider tek kayıtta. Mevcut Excel ve defter kayıtlarınızı biz aktarıyoruz.",
+      "Rezervasyon, koltuk, kapora ve tur içi gelir-gider tek kayıtta. Mevcut Excel kayıtlarınızı sisteme biz aktarıyoruz.",
   },
   twitter: {
     card: "summary_large_image",

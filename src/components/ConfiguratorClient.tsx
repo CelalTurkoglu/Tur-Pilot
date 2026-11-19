@@ -67,9 +67,7 @@ export function ConfiguratorClient() {
 
   const [manualFocusId, setManualFocusId] = useState<ModuleId | null>(null);
   const focusId =
-    manualFocusId ??
-    MODULES.find((m) => m.step === step)?.id ??
-    "admin";
+    manualFocusId ?? MODULES.find((m) => m.step === step)?.id ?? "admin";
 
   const [desktopCartOpen, setDesktopCartOpen] = useState(false);
   const [mobileCartOpen, setMobileCartOpen] = useState(false);
@@ -80,7 +78,6 @@ export function ConfiguratorClient() {
     agencyName: "",
     phone: "",
     email: "",
-    callWindow: "Sabah",
     kvkkAccepted: false,
   });
   const [submitting, setSubmitting] = useState(false);
@@ -92,7 +89,7 @@ export function ConfiguratorClient() {
   } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Masaüstü scroll-focus IntersectionObserver (Main.dc.html referanslı)
+  // Masaüstü scroll-focus IntersectionObserver
   useEffect(() => {
     if (step >= 4 || typeof IntersectionObserver === "undefined") return;
     const io = new IntersectionObserver(
@@ -138,13 +135,13 @@ export function ConfiguratorClient() {
   );
 
   const countInStep = (stepIdx: number) =>
-    MODULES.filter((m) => m.step === stepIdx && selectedMap[m.id]).length;
+    totals.selectedModules.filter((m) => m.step === stepIdx).length;
 
-  const goToStep = (nextStep: 0 | 1 | 2 | 3 | 4) => {
+  const goToStep = (nextStep: 0 | 1 | 2 | 3 | 4, focusOverride?: ModuleId) => {
     const firstMod = MODULES.find((m) => m.step === nextStep);
     setManualStep(nextStep);
     setManualVisited((prev) => ({ ...prev, [nextStep]: true }));
-    setManualFocusId(firstMod ? firstMod.id : null);
+    setManualFocusId(focusOverride ?? (firstMod ? firstMod.id : null));
     setDesktopCartOpen(false);
     setMobileCartOpen(false);
     setDetailId(null);
@@ -156,7 +153,24 @@ export function ConfiguratorClient() {
   const toggleModule = (id: ModuleId) => {
     const mod = MODULES.find((m) => m.id === id);
     if (!mod || mod.locked) return;
-    setSelectedMap((prev) => ({ ...prev, [id]: !prev[id] }));
+    // Public Site bağımlılığı kontrolü (hotel ve pos yalnızca public seçiliyse açılabilir)
+    if (mod.requiresModule && !selectedMap[mod.requiresModule]) {
+      return;
+    }
+
+    setSelectedMap((prev) => {
+      const nextVal = !prev[id];
+      const next = { ...prev, [id]: nextVal };
+      // Public Site kaldırılırsa ona bağımlı olan modülleri (hotel, pos) de otomatik kapat
+      if (id === "public" && !nextVal) {
+        for (const item of MODULES) {
+          if (item.requiresModule === "public") {
+            next[item.id] = false;
+          }
+        }
+      }
+      return next;
+    });
     setManualFocusId(id);
   };
 
@@ -197,7 +211,7 @@ export function ConfiguratorClient() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "configurator_summary",
-          selectedIds,
+          selectedIds: totals.selectedModules.map((m) => m.id),
           subtotal: totals.subtotal,
           vatAmount: totals.vatAmount,
           grandTotal: totals.grandTotal,
@@ -256,6 +270,9 @@ export function ConfiguratorClient() {
 
   const progressPct = (80 * step) / 4;
   const detailModule = MODULES.find((m) => m.id === detailId) ?? null;
+  const isDetailLockedByDep = !!(
+    detailModule?.requiresModule && !selectedMap[detailModule.requiresModule]
+  );
 
   return (
     <div className="min-h-screen bg-[#F2F4F7] text-[#15304C]">
@@ -453,7 +470,10 @@ export function ConfiguratorClient() {
                 className="flex-[1_1_440px] min-w-0 flex flex-col gap-3"
               >
                 {stepModules.map((m) => {
-                  const sel = !!selectedMap[m.id];
+                  const isLockedByDep = !!(
+                    m.requiresModule && !selectedMap[m.requiresModule]
+                  );
+                  const sel = !isLockedByDep && !!selectedMap[m.id];
                   const isFocus = m.id === focusMod.id;
                   const priceLabel = m.locked
                     ? `${formatTry(m.price)} / yıl`
@@ -481,6 +501,23 @@ export function ConfiguratorClient() {
                         </div>
                       </div>
 
+                      {isLockedByDep && (
+                        <div className="mt-2 rounded-[10px] bg-[#FFF4D6] border border-[#F2A900] px-3 py-2 text-[13px] font-medium text-[#8A3412] flex items-center justify-between gap-2">
+                          <span>
+                            Bu özellik yalnızca{" "}
+                            <strong>Public Site (B2C Vitrin)</strong>{" "}
+                            seçildiğinde aktif olur.
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => goToStep(0, "public")}
+                            className="shrink-0 text-[#2457D6] underline font-bold cursor-pointer"
+                          >
+                            1. Duraktan ekle
+                          </button>
+                        </div>
+                      )}
+
                       <p className="mt-2 text-[14px] leading-relaxed text-[#5A6472]">
                         <span className="text-[#8A3412] font-semibold">
                           Sorun:{" "}
@@ -507,6 +544,14 @@ export function ConfiguratorClient() {
                           <span className="inline-flex items-center gap-1.5 min-h-[44px] px-3.5 rounded-[10px] bg-[#E8ECF2] text-[#34465A] text-[14px] font-semibold">
                             <LockIcon size={16} />
                             Pakete dahil
+                          </span>
+                        ) : isLockedByDep ? (
+                          <span
+                            aria-disabled="true"
+                            className="inline-flex items-center gap-1.5 min-h-[44px] px-3.5 rounded-[10px] bg-[#E8ECF2] text-[#5A6472] text-[14px] font-semibold cursor-not-allowed"
+                          >
+                            <LockIcon size={15} />
+                            Public Site gerekli
                           </span>
                         ) : (
                           <button
@@ -634,7 +679,10 @@ export function ConfiguratorClient() {
             {/* MOBİL LİSTE GÖRÜNÜMÜ (< 1024px) */}
             <div className="lg:hidden flex flex-col gap-2.5">
               {stepModules.map((m) => {
-                const sel = !!selectedMap[m.id];
+                const isLockedByDep = !!(
+                  m.requiresModule && !selectedMap[m.requiresModule]
+                );
+                const sel = !isLockedByDep && !!selectedMap[m.id];
                 const priceLabel = m.locked
                   ? `${formatTry(m.price)} / yıl`
                   : `+${formatTry(m.price)} / yıl`;
@@ -687,6 +735,18 @@ export function ConfiguratorClient() {
                         <div className="text-[14px] font-bold text-[#15304C] mt-1 tabular-nums">
                           {priceLabel}
                         </div>
+                        {isLockedByDep && (
+                          <div className="mt-1 rounded-[7px] bg-[#FFF4D6] border border-[#F2A900] px-2 py-1 text-[11px] font-medium text-[#8A3412]">
+                            Public Site seçildiğinde aktif olur.{" "}
+                            <button
+                              type="button"
+                              onClick={() => goToStep(0, "public")}
+                              className="text-[#2457D6] underline font-bold"
+                            >
+                              1. Durağa git
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -703,6 +763,14 @@ export function ConfiguratorClient() {
                         <span className="inline-flex items-center gap-1 min-h-[44px] px-2.5 rounded-[10px] bg-[#E8ECF2] text-[#34465A] text-[13px] font-semibold">
                           <LockIcon size={14} />
                           Dahil
+                        </span>
+                      ) : isLockedByDep ? (
+                        <span
+                          aria-disabled="true"
+                          className="inline-flex items-center gap-1 min-h-[44px] px-2.5 rounded-[10px] bg-[#E8ECF2] text-[#5A6472] text-[12px] font-semibold"
+                        >
+                          <LockIcon size={13} />
+                          Public Site gerekli
                         </span>
                       ) : (
                         <button
@@ -734,7 +802,7 @@ export function ConfiguratorClient() {
           /* ADIM 5: ÖZET & GEÇİŞ PLANI */
           <SummaryView
             selectedItems={totals.selectedModules}
-            selectedIds={selectedIds}
+            selectedIds={totals.selectedModules.map((m) => m.id)}
             subtotal={totals.subtotal}
             vatAmount={totals.vatAmount}
             grandTotal={totals.grandTotal}
@@ -806,7 +874,13 @@ export function ConfiguratorClient() {
       {/* Mobil Bottom Sheet'ler */}
       <MobileDetailSheet
         moduleItem={detailModule}
-        isSelected={detailModule ? !!selectedMap[detailModule.id] : false}
+        isSelected={
+          detailModule && !isDetailLockedByDep
+            ? !!selectedMap[detailModule.id]
+            : false
+        }
+        isLockedByDependency={isDetailLockedByDep}
+        onJumpToPublicStep={() => goToStep(0, "public")}
         onToggle={toggleModule}
         onClose={() => setDetailId(null)}
       />

@@ -29,7 +29,7 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
   const [name, setName] = useState("");
   const [agency, setAgency] = useState("");
   const [phone, setPhone] = useState("");
-  const [callTime, setCallTime] = useState("Sabah");
+  const [email, setEmail] = useState("");
   const [kvkkAccepted, setKvkkAccepted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -59,12 +59,16 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
     e.preventDefault();
     setErrorMsg(null);
 
-    if (!name.trim() || !agency.trim() || !phone.trim()) {
-      setErrorMsg("Lütfen ad soyad, acente adı ve telefon alanlarını doldurun.");
+    if (!name.trim() || !agency.trim() || !phone.trim() || !email.trim()) {
+      setErrorMsg(
+        "Lütfen ad soyad, acente adı, telefon ve e-posta alanlarını doldurun."
+      );
       return;
     }
     if (!kvkkAccepted) {
-      setErrorMsg("Devam etmek için KVKK aydınlatma metnini onaylamanız gerekir.");
+      setErrorMsg(
+        "Devam etmek için KVKK aydınlatma metnini onaylamanız gerekir."
+      );
       return;
     }
 
@@ -79,7 +83,7 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
           contactName: name.trim(),
           agencyName: agency.trim(),
           phone: phone.trim(),
-          callWindow: callTime,
+          email: email.trim(),
           kvkkAccepted: true,
         }),
       });
@@ -105,7 +109,7 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
     name.trim() || "-"
   }\nAcente: ${agency.trim() || "-"}\nTelefon: ${
     phone.trim() || "-"
-  }\nTercih edilen zaman: ${callTime}`;
+  }\nE-posta: ${email.trim() || "-"}`;
 
   return (
     <DemoModalContext.Provider value={{ openDemoModal }}>
@@ -192,18 +196,15 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
                   </label>
 
                   <label className="block text-[14px] font-semibold text-[#15304C]">
-                    Görüşme zamanı
-                    <select
-                      value={callTime}
-                      onChange={(e) => setCallTime(e.target.value)}
+                    E-posta *
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="ornek@acente.com"
                       className="mt-1.5 w-full h-[46px] rounded-[10px] border border-[#AEB7C4] px-3 text-[15px] text-[#15304C] bg-white"
-                    >
-                      <option value="Sabah">Sabah (09:30–12:30)</option>
-                      <option value="Öğleden sonra">
-                        Öğleden sonra (13:30–17:30)
-                      </option>
-                      <option value="Akşam">Akşam (18:00–20:00)</option>
-                    </select>
+                    />
                   </label>
                 </div>
 
@@ -254,8 +255,8 @@ export function DemoModalProvider({ children }: { children: React.ReactNode }) {
                   <span>Görüşme talebiniz alındı</span>
                 </div>
                 <p className="mt-1.5 text-[14px] leading-relaxed">
-                  {agency} için talebiniz ekibimize iletildi. Seçtiğiniz{" "}
-                  <strong>{callTime.toLowerCase()}</strong> diliminde{" "}
+                  <strong>{agency}</strong> için talebiniz ekibimize ve{" "}
+                  <strong>{email}</strong> adresinize iletildi. En kısa sürede{" "}
                   <strong>{phone}</strong> numarasından sizinle iletişime
                   geçeceğiz.
                 </p>

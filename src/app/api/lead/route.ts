@@ -356,9 +356,9 @@ async function trySmtpSend(params: {
       user: params.user,
       pass: params.pass,
     },
-    connectionTimeout: 4000,
-    greetingTimeout: 4000,
-    socketTimeout: 6000,
+    connectionTimeout: 2500,
+    greetingTimeout: 2500,
+    socketTimeout: 4000,
   });
 
   await transporter.sendMail({
@@ -442,8 +442,47 @@ export async function POST(request: Request) {
     let formspreeSent = false;
     let transportDetail = "none";
 
-    // 1) Resend API varsa hem info@turpilot.site + celal2004@gmail.com'a hem müşteriye gönder
-    if (process.env.RESEND_API_KEY) {
+    // 1) Google Apps Script HTTPS Relay (Railway SMTP port engelini HTTPS 443 üzerinden aşar, doğrudan info@turpilot.site Gmail hesabından gönderir)
+    const googleScriptUrl = process.env.GOOGLE_SCRIPT_MAIL_URL;
+    if (googleScriptUrl) {
+      try {
+        const gsAdmin = await fetch(googleScriptUrl, {
+          method: "POST",
+          signal: AbortSignal.timeout(6000),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            to: adminRecipients.join(","),
+            replyTo: email || siteConfig.email,
+            subject: built.adminSubject,
+            html: built.adminHtml,
+            text: built.adminText,
+          }),
+        });
+        adminNotified = gsAdmin.ok;
+
+        if (email) {
+          const gsCust = await fetch(googleScriptUrl, {
+            method: "POST",
+            signal: AbortSignal.timeout(6000),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to: email,
+              replyTo: siteConfig.email,
+              subject: built.customerSubject,
+              html: built.customerHtml,
+              text: built.customerText,
+            }),
+          });
+          customerNotified = gsCust.ok;
+        }
+        transportDetail = "google_script_https";
+      } catch (err) {
+        console.error("[TurPilot Google Script Relay Error]", err);
+      }
+    }
+
+    // 2) Resend API varsa hem info@turpilot.site + celal2004@gmail.com'a hem müşteriye gönder
+    if (!adminNotified && process.env.RESEND_API_KEY) {
       try {
         adminNotified = await sendViaResend({
           from: fromEmail,

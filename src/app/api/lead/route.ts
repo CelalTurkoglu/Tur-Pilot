@@ -68,47 +68,54 @@ function buildEmails(params: {
   });
 
   const vatPct = Math.round(siteConfig.vatRate * 100);
+  const turpilotWaHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+    `Merhaba TurPilot ekibi, ${params.referenceId} numaralı (${params.agencyName}) talebim hakkında yazıyorum.`
+  )}`;
 
   const emailStyles = `
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="x-apple-disable-message-reformatting" />
 <meta name="color-scheme" content="light only" />
 <style>
-  body { margin:0 !important; padding:0 !important; width:100% !important; -webkit-text-size-adjust:100%; }
-  table { border-collapse:collapse; }
+  html, body { margin:0 !important; padding:0 !important; width:100% !important; background:#F2F4F7; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+  table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
   img { border:0; outline:none; text-decoration:none; }
   a { color:#2457D6; }
-  @media only screen and (max-width: 620px) {
-    .tp-outer { padding:0 !important; }
-    .tp-shell { width:100% !important; border-radius:0 !important; }
-    .tp-pad { padding:20px 16px !important; }
-    .tp-head { padding:16px !important; }
-    .tp-h1 { font-size:21px !important; line-height:1.25 !important; }
-    .tp-stack { display:block !important; width:100% !important; box-sizing:border-box !important; }
-    .tp-stack-right { text-align:left !important; padding-top:2px !important; }
-    .tp-label { width:auto !important; padding-bottom:0 !important; }
-    .tp-value { padding-top:2px !important; }
+  @media only screen and (max-width: 520px) {
+    .tp-outer { padding:10px 8px !important; }
+    .tp-shell { border-radius:12px !important; }
+    .tp-head { padding:14px 16px !important; }
+    .tp-pad { padding:18px 14px !important; }
+    .tp-h1 { font-size:20px !important; line-height:1.25 !important; }
+    .tp-total-val { font-size:19px !important; }
     .tp-btn { display:block !important; width:100% !important; box-sizing:border-box !important; text-align:center !important; margin:0 0 8px 0 !important; }
-    .tp-total { font-size:22px !important; }
-    .tp-tl-cell { display:block !important; width:100% !important; box-sizing:border-box !important; margin-bottom:8px !important; }
   }
 </style>`;
 
   const wrapHtml = (inner: string, preheader: string) => `<!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8" />
 ${emailStyles}
 </head>
-<body style="margin:0;padding:0;background:#F2F4F7;">
-<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">${escapeHtml(
+<body style="margin:0;padding:0;width:100%;background:#F2F4F7;font-family:Arial,Helvetica,sans-serif;color:#15304C;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;font-size:1px;line-height:1px;">${escapeHtml(
     preheader
   )}</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F2F4F7;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#F2F4F7;">
   <tr>
-    <td align="center" class="tp-outer" style="padding:24px 12px;">
-      <table role="presentation" class="tp-shell" width="640" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:640px;background:#FFFFFF;border:1px solid #DDE2E9;border-radius:14px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#15304C;">
-        ${inner}
-      </table>
+    <td align="center" class="tp-outer" style="padding:20px 12px;">
+      <!--[if mso]>
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td>
+      <![endif]-->
+      <div style="width:100%;max-width:600px;margin:0 auto;">
+        <table role="presentation" class="tp-shell" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#FFFFFF;border:1px solid #DDE2E9;border-radius:14px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#15304C;text-align:left;">
+          ${inner}
+        </table>
+      </div>
+      <!--[if mso]>
+      </td></tr></table>
+      <![endif]-->
     </td>
   </tr>
 </table>
@@ -116,122 +123,136 @@ ${emailStyles}
 </html>`;
 
   const brandHeaderHtml = `
-        <tr>
-          <td class="tp-head" style="background:#15304C;padding:20px 24px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-              <tr>
-                <td align="left" style="font-size:0;">
-                  <span style="display:inline-block;background:#2457D6;color:#FFFFFF;font-weight:800;font-size:18px;line-height:1;padding:8px 12px;border-radius:8px;">TurPilot</span>
-                </td>
-                <td align="right">
-                  <span style="display:inline-block;background:#F2A900;color:#15304C;font-weight:700;font-size:12px;line-height:1;padding:7px 10px;border-radius:999px;">Ref: ${escapeHtml(
-                    params.referenceId
-                  )}</span>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>`;
+          <tr>
+            <td class="tp-head" style="background:#15304C;padding:18px 22px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                <tr>
+                  <td align="left" valign="middle">
+                    <span style="display:inline-block;background:#2457D6;color:#FFFFFF;font-weight:800;font-size:17px;line-height:1;padding:8px 12px;border-radius:8px;letter-spacing:-0.01em;">TurPilot</span>
+                  </td>
+                  <td align="right" valign="middle">
+                    <span style="display:inline-block;background:#F2A900;color:#15304C;font-weight:700;font-size:11px;line-height:1;padding:6px 10px;border-radius:999px;white-space:nowrap;">Ref: ${escapeHtml(
+                      params.referenceId
+                    )}</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
 
-  // Ad / değer çiftleri mobilde alt alta yığılır
+  // Tek sütunlu akışkan bilgi satırları — her ekran genişliğinde taşma yapmaz
   const infoRow = (label: string, valueHtml: string, last = false) => `
-              <tr>
-                <td class="tp-stack tp-label" style="padding:10px 14px 0;${
-                  last ? "" : ""
-                }font-size:12px;color:#5A6472;width:140px;vertical-align:top;">${label}</td>
-                <td class="tp-stack tp-value" style="padding:10px 14px ${
-                  last ? "12px" : "10px"
-                };font-size:14px;font-weight:700;color:#15304C;word-break:break-word;${
-                  last ? "" : "border-bottom:1px solid #E8ECF2;"
-                }">${valueHtml}</td>
-              </tr>`;
+                <tr>
+                  <td style="padding:10px 14px;${
+                    last ? "" : "border-bottom:1px solid #E8ECF2;"
+                  }">
+                    <div style="font-size:11px;font-weight:700;color:#5A6472;text-transform:uppercase;letter-spacing:0.03em;">${label}</div>
+                    <div style="font-size:14px;font-weight:700;color:#15304C;margin-top:2px;line-height:1.35;word-break:break-word;overflow-wrap:anywhere;">${valueHtml}</div>
+                  </td>
+                </tr>`;
 
+  // Her modül tek dış hücre içinde, sol ad (sarar) + sağ fiyat (tek satır) — mobilde sıfır taşma ve temiz tek ayırıcı çizgi
   const moduleRowsHtml = totals.selectedModules
     .map(
       (m) => `
-              <tr>
-                <td class="tp-stack" style="padding:12px 14px 2px;border-top:1px solid #E8ECF2;vertical-align:top;">
-                  <div style="font-size:11px;font-weight:700;color:#2457D6;text-transform:uppercase;letter-spacing:0.03em;">${escapeHtml(
-                    CONFIG_STEPS[m.step].label
-                  )}</div>
-                  <div style="font-size:14px;font-weight:700;color:#15304C;margin-top:2px;line-height:1.35;">${escapeHtml(
-                    m.name
-                  )}</div>
-                </td>
-                <td class="tp-stack tp-stack-right" align="right" style="padding:12px 14px;border-top:1px solid #E8ECF2;vertical-align:top;font-size:14px;font-weight:700;color:#15304C;white-space:nowrap;">
-                  ${escapeHtml(formatTry(m.price))} <span style="font-weight:400;color:#5A6472;font-size:12px;">/ yıl</span>
-                </td>
-              </tr>`
+                <tr>
+                  <td style="padding:11px 14px;border-bottom:1px solid #E8ECF2;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                      <tr>
+                        <td align="left" valign="top" style="padding-right:10px;">
+                          <div style="font-size:10px;font-weight:700;color:#2457D6;text-transform:uppercase;letter-spacing:0.04em;line-height:1.2;">${escapeHtml(
+                            CONFIG_STEPS[m.step].label
+                          )}</div>
+                          <div style="font-size:13px;font-weight:700;color:#15304C;margin-top:3px;line-height:1.35;word-break:break-word;">${escapeHtml(
+                            m.name
+                          )}</div>
+                        </td>
+                        <td align="right" valign="top" style="white-space:nowrap;width:1%;padding-top:12px;">
+                          <span style="font-size:13px;font-weight:700;color:#15304C;">${escapeHtml(
+                            formatTry(m.price)
+                          )}</span><span style="font-size:11px;font-weight:400;color:#5A6472;"> / yıl</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>`
     )
     .join("");
 
   const modulesTableHtml = `
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #DDE2E9;border-radius:10px;overflow:hidden;">
-            <tr>
-              <td colspan="2" style="padding:0;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                  ${moduleRowsHtml}
-                  <tr>
-                    <td class="tp-stack" style="padding:12px 14px 2px;background:#F8FAFC;border-top:1px solid #E8ECF2;font-size:14px;font-weight:700;color:#34465A;">Kurulum ve Excel veri aktarımı</td>
-                    <td class="tp-stack tp-stack-right" align="right" style="padding:12px 14px;background:#F8FAFC;border-top:1px solid #E8ECF2;font-size:14px;font-weight:700;color:#1E7A46;white-space:nowrap;">Dahil (Ücretsiz)</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>`;
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;border:1px solid #DDE2E9;border-radius:10px;overflow:hidden;background:#FFFFFF;">
+              ${moduleRowsHtml}
+              <tr>
+                <td style="padding:11px 14px;background:#F8FAFC;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                    <tr>
+                      <td align="left" valign="middle" style="padding-right:10px;font-size:13px;font-weight:700;color:#34465A;">Kurulum ve Excel veri aktarımı</td>
+                      <td align="right" valign="middle" style="white-space:nowrap;width:1%;font-size:13px;font-weight:700;color:#1E7A46;">Dahil (Ücretsiz)</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>`;
 
   const financialCardHtml = `
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:16px;background:#15304C;border-radius:12px;">
-            <tr>
-              <td style="padding:16px 18px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:14px;">
-                  <tr>
-                    <td style="padding:3px 0;color:#C3CEDC;">Modül sayısı</td>
-                    <td align="right" style="padding:3px 0;font-weight:700;color:#FFFFFF;">${totals.count} modül</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:3px 0;color:#C3CEDC;">Ara toplam (KDV hariç)</td>
-                    <td align="right" style="padding:3px 0;font-weight:700;color:#FFFFFF;white-space:nowrap;">${escapeHtml(
-                      formatTry(totals.subtotal)
-                    )}</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:3px 0;color:#C3CEDC;">KDV (%${vatPct})</td>
-                    <td align="right" style="padding:3px 0;color:#C3CEDC;white-space:nowrap;">${escapeHtml(
-                      formatTry(totals.vatAmount)
-                    )}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2" style="padding:10px 0 0;border-top:1px dashed #4B6482;"></td>
-                  </tr>
-                  <tr>
-                    <td class="tp-stack" style="padding:0;font-size:14px;font-weight:700;color:#FFFFFF;">KDV dahil yıllık toplam</td>
-                    <td class="tp-stack tp-stack-right tp-total" align="right" style="padding:2px 0 0;font-size:24px;font-weight:800;color:#F2A900;white-space:nowrap;">${escapeHtml(
-                      formatTry(totals.grandTotal)
-                    )}</td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>`;
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-top:14px;background:#15304C;border-radius:12px;">
+              <tr>
+                <td style="padding:16px 16px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;font-size:13px;">
+                    <tr>
+                      <td align="left" style="padding:3px 8px 3px 0;color:#C3CEDC;">Modül sayısı</td>
+                      <td align="right" style="padding:3px 0;font-weight:700;color:#FFFFFF;white-space:nowrap;">${totals.count} modül</td>
+                    </tr>
+                    <tr>
+                      <td align="left" style="padding:3px 8px 3px 0;color:#C3CEDC;">Ara toplam (KDV hariç)</td>
+                      <td align="right" style="padding:3px 0;font-weight:700;color:#FFFFFF;white-space:nowrap;">${escapeHtml(
+                        formatTry(totals.subtotal)
+                      )} / yıl</td>
+                    </tr>
+                    <tr>
+                      <td align="left" style="padding:3px 8px 10px 0;color:#C3CEDC;">KDV (%${vatPct})</td>
+                      <td align="right" style="padding:3px 0 10px 0;color:#C3CEDC;white-space:nowrap;">${escapeHtml(
+                        formatTry(totals.vatAmount)
+                      )}</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="middle" style="padding:10px 8px 0 0;border-top:1px dashed #4B6482;font-size:14px;font-weight:700;color:#FFFFFF;">Yıllık toplam</td>
+                      <td align="right" valign="middle" class="tp-total-val" style="padding:10px 0 0 0;border-top:1px dashed #4B6482;font-size:22px;font-weight:800;color:#F2A900;white-space:nowrap;">${escapeHtml(
+                        formatTry(totals.grandTotal)
+                      )}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" align="right" style="padding-top:6px;font-size:11px;color:#C3CEDC;line-height:1.4;">
+                        Kredi kartınızla, bankanız üzerinden taksitle ödeyebilirsiniz.
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>`;
 
-  // Geçiş takvimi: mobilde okunaklı dikey liste (5 sütun yerine)
   const timelineHtml = MIGRATION_TIMELINE.map(
-    (t) => `
-            <tr>
-              <td width="14" valign="top" style="padding:6px 0 0;"><div style="width:10px;height:10px;border-radius:50%;background:#2457D6;"></div></td>
-              <td valign="top" style="padding:0 0 12px 8px;">
-                <div style="font-size:12px;font-weight:700;color:#2457D6;">${escapeHtml(
-                  t.day
-                )}</div>
-                <div style="font-size:14px;font-weight:700;color:#15304C;margin-top:1px;">${escapeHtml(
-                  t.label
-                )}</div>
-                <div style="font-size:13px;color:#5A6472;margin-top:2px;line-height:1.4;">${escapeHtml(
-                  t.note
-                )}</div>
-              </td>
-            </tr>`
+    (t, idx) => `
+              <tr>
+                <td width="18" valign="top" style="padding:5px 0 ${
+                  idx === MIGRATION_TIMELINE.length - 1 ? "0" : "10px"
+                } 0;">
+                  <div style="width:10px;height:10px;border-radius:50%;background:#2457D6;"></div>
+                </td>
+                <td valign="top" style="padding:0 0 ${
+                  idx === MIGRATION_TIMELINE.length - 1 ? "0" : "10px"
+                } 6px;">
+                  <div style="font-size:11px;font-weight:700;color:#2457D6;">${escapeHtml(
+                    t.day
+                  )}</div>
+                  <div style="font-size:13px;font-weight:700;color:#15304C;margin-top:1px;">${escapeHtml(
+                    t.label
+                  )}</div>
+                  <div style="font-size:12px;color:#5A6472;margin-top:2px;line-height:1.4;">${escapeHtml(
+                    t.note
+                  )}</div>
+                </td>
+              </tr>`
   ).join("");
 
   const moduleTextList = totals.selectedModules
@@ -248,56 +269,56 @@ ${emailStyles}
     : `[TurPilot Görüşme Talebi] ${params.agencyName} — ${params.contactName} (${params.referenceId})`;
 
   const adminInner = `${brandHeaderHtml}
-        <tr>
-          <td class="tp-pad" style="padding:24px;">
-          <div style="font-size:12px;font-weight:700;color:#2457D6;text-transform:uppercase;letter-spacing:0.05em;line-height:1.4;">
-            ${
-              params.isSummary
-                ? "Yeni Sistem Yapılandırma ve Görüşme Talebi"
-                : "Yeni Görüşme / Demo Talebi"
-            } · ${escapeHtml(createdDate)}
-          </div>
-          <h1 class="tp-h1" style="margin:6px 0 16px;font-size:24px;line-height:1.25;color:#15304C;word-break:break-word;">${escapeHtml(
-            params.agencyName
-          )}</h1>
+          <tr>
+            <td class="tp-pad" style="padding:22px;">
+              <div style="font-size:11px;font-weight:700;color:#2457D6;text-transform:uppercase;letter-spacing:0.04em;line-height:1.4;">
+                ${
+                  params.isSummary
+                    ? "Yeni Sistem Yapılandırma ve Görüşme Talebi"
+                    : "Yeni Görüşme / Demo Talebi"
+                } · ${escapeHtml(createdDate)}
+              </div>
+              <h1 class="tp-h1" style="margin:6px 0 14px;font-size:22px;line-height:1.25;color:#15304C;word-break:break-word;">${escapeHtml(
+                params.agencyName
+              )}</h1>
 
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F8FAFC;border:1px solid #DDE2E9;border-radius:10px;">
-            ${infoRow("Yetkili Ad Soyad", escapeHtml(params.contactName))}
-            ${infoRow("Acente Adı", escapeHtml(params.agencyName))}
-            ${infoRow("Telefon (WhatsApp)", escapeHtml(params.phone))}
-            ${infoRow(
-              "E-posta",
-              `<a href="mailto:${escapeHtml(
-                params.email
-              )}" style="color:#2457D6;text-decoration:none;font-weight:600;">${escapeHtml(
-                params.email || "-"
-              )}</a>`,
-              true
-            )}
-          </table>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#F8FAFC;border:1px solid #DDE2E9;border-radius:10px;">
+                ${infoRow("Yetkili Ad Soyad", escapeHtml(params.contactName))}
+                ${infoRow("Acente Adı", escapeHtml(params.agencyName))}
+                ${infoRow("Telefon (WhatsApp)", escapeHtml(params.phone))}
+                ${infoRow(
+                  "E-posta",
+                  params.email
+                    ? `<a href="mailto:${escapeHtml(
+                        params.email
+                      )}" style="color:#2457D6;text-decoration:none;font-weight:700;">${escapeHtml(
+                        params.email
+                      )}</a>`
+                    : "-",
+                  true
+                )}
+              </table>
 
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:14px;">
-            <tr>
+              <div style="margin-top:14px;">
+                ${
+                  waHref
+                    ? `<a class="tp-btn" href="${waHref}" style="display:inline-block;background:#1E7A46;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:14px;line-height:1.2;padding:12px 18px;border-radius:8px;margin:0 8px 8px 0;">WhatsApp ile Yaz</a>`
+                    : ""
+                }
+                <a class="tp-btn" href="tel:${escapeHtml(
+                  params.phone
+                )}" style="display:inline-block;background:#2457D6;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:14px;line-height:1.2;padding:12px 18px;border-radius:8px;margin:0 0 8px 0;">Hemen Ara</a>
+              </div>
+
               ${
-                waHref
-                  ? `<td class="tp-stack" style="padding:0 6px 0 0;"><a class="tp-btn" href="${waHref}" style="display:inline-block;background:#1E7A46;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:14px;padding:12px 16px;border-radius:8px;">WhatsApp ile Yaz</a></td>`
+                params.isSummary
+                  ? `<h2 style="margin:18px 0 10px;font-size:15px;color:#15304C;">Seçilen Paket ve Modüller (${totals.count} Modül)</h2>
+              ${modulesTableHtml}
+              ${financialCardHtml}`
                   : ""
               }
-              <td class="tp-stack" style="padding:0;"><a class="tp-btn" href="tel:${escapeHtml(
-                params.phone
-              )}" style="display:inline-block;background:#2457D6;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:14px;padding:12px 16px;border-radius:8px;">Hemen Ara</a></td>
-            </tr>
-          </table>
-
-          ${
-            params.isSummary
-              ? `<h2 style="margin:24px 0 10px;font-size:16px;color:#15304C;">Seçilen Paket ve Modüller (${totals.count} Modül)</h2>
-          ${modulesTableHtml}
-          ${financialCardHtml}`
-              : ""
-          }
-          </td>
-        </tr>`;
+            </td>
+          </tr>`;
 
   const adminHtml = wrapHtml(
     adminInner,
@@ -314,92 +335,131 @@ ${emailStyles}
     `Yetkili: ${params.contactName}`,
     `Telefon: ${params.phone}`,
     `E-posta: ${params.email || "-"}`,
-    "",
-    "Seçilen Modüller:",
-    moduleTextList,
-    "- Kurulum ve Excel veri aktarımı: Dahil (Ücretsiz)",
-    "",
-    `Ara toplam (KDV hariç): ${formatTry(totals.subtotal)} / yıl`,
-    `KDV (%${vatPct}): ${formatTry(totals.vatAmount)}`,
-    `KDV dahil yıllık toplam: ${formatTry(totals.grandTotal)} / yıl`,
+    ...(params.isSummary
+      ? [
+          "",
+          "Seçilen Modüller:",
+          moduleTextList,
+          "- Kurulum ve Excel veri aktarımı: Dahil (Ücretsiz)",
+          "",
+          `Ara toplam (KDV hariç): ${formatTry(totals.subtotal)} / yıl`,
+          `KDV (%${vatPct}): ${formatTry(totals.vatAmount)}`,
+          `KDV dahil yıllık toplam: ${formatTry(totals.grandTotal)} / yıl`,
+        ]
+      : []),
   ].join("\n");
 
-  const customerSubject = `TurPilot Sistem Özetiniz ve Görüşme Talebiniz Alındı (${params.referenceId})`;
+  const customerSubject = params.isSummary
+    ? `TurPilot Sistem Özetiniz ve Görüşme Talebiniz Alındı (${params.referenceId})`
+    : `TurPilot Görüşme Talebiniz Alındı (${params.referenceId})`;
 
   const customerInner = `${brandHeaderHtml}
-        <tr>
-          <td class="tp-pad" style="padding:24px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-            <tr>
-              <td style="background:#E6F3EB;border:1px solid #B7DFC7;border-radius:10px;padding:12px 14px;font-size:14px;font-weight:700;line-height:1.4;color:#144F2E;">
-                ✓ Sistem özetiniz ve görüşme talebiniz TurPilot ekibine ulaştı.
-              </td>
-            </tr>
-          </table>
+          <tr>
+            <td class="tp-pad" style="padding:22px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                <tr>
+                  <td style="background:#E6F3EB;border:1px solid #B7DFC7;border-radius:10px;padding:12px 14px;font-size:13px;font-weight:700;line-height:1.45;color:#144F2E;">
+                    ✓ ${
+                      params.isSummary
+                        ? "Sistem özetiniz ve görüşme talebiniz TurPilot ekibine ulaştı."
+                        : "Görüşme talebiniz TurPilot ekibine ulaştı."
+                    }
+                  </td>
+                </tr>
+              </table>
 
-          <h1 class="tp-h1" style="margin:16px 0 8px;font-size:22px;line-height:1.25;color:#15304C;">Merhaba ${escapeHtml(
-            params.contactName
-          )},</h1>
-          <p style="margin:0 0 18px;font-size:15px;line-height:1.55;color:#34465A;">
-            <strong>${escapeHtml(
-              params.agencyName
-            )}</strong> için oluşturduğunuz TurPilot paket yapılandırması aşağıda özetlenmiştir. Ürün ekibimiz en kısa sürede <strong>${escapeHtml(
-    params.phone
-  )}</strong> numarasından sizinle iletişime geçerek ihtiyaçlarınızı birlikte doğrulayacaktır.
-          </p>
+              <h1 class="tp-h1" style="margin:16px 0 8px;font-size:21px;line-height:1.25;color:#15304C;">Merhaba ${escapeHtml(
+                params.contactName
+              )},</h1>
+              <p style="margin:0 0 16px;font-size:14px;line-height:1.6;color:#34465A;">
+                ${
+                  params.isSummary
+                    ? `<strong>${escapeHtml(
+                        params.agencyName
+                      )}</strong> için oluşturduğunuz TurPilot paket yapılandırması aşağıda özetlenmiştir. Ürün ekibimiz en kısa sürede <strong>${escapeHtml(
+                        params.phone
+                      )}</strong> numarasından sizinle iletişime geçerek ihtiyaçlarınızı birlikte doğrulayacaktır.`
+                    : `<strong>${escapeHtml(
+                        params.agencyName
+                      )}</strong> adına ilettiğiniz canlı tanıtım ve görüşme talebiniz alındı. Ürün ekibimiz en kısa sürede <strong>${escapeHtml(
+                        params.phone
+                      )}</strong> numarasından sizinle iletişime geçecektir.`
+                }
+              </p>
 
-          <h2 style="margin:20px 0 10px;font-size:16px;color:#15304C;">Seçtiğiniz Paket ve Modüller</h2>
-          ${modulesTableHtml}
-          ${financialCardHtml}
-
-          <h3 style="margin:24px 0 6px;font-size:15px;color:#15304C;">Geçiş Takvimi</h3>
-          <p style="margin:0 0 12px;font-size:13px;line-height:1.5;color:#5A6472;">${escapeHtml(
-            MIGRATION_SLA_TEXT
-          )}</p>
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-            ${timelineHtml}
-          </table>
-
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:8px;border-top:1px solid #E8ECF2;">
-            <tr>
-              <td style="padding-top:16px;font-size:13px;color:#5A6472;line-height:1.7;">
-                <strong>TurPilot İletişim</strong><br />
-                <a href="tel:+908508853455" style="color:#2457D6;text-decoration:none;">${escapeHtml(
-                  siteConfig.phoneDisplay
-                )}</a><br />
-                <a href="mailto:${escapeHtml(
-                  siteConfig.email
-                )}" style="color:#2457D6;text-decoration:none;">${escapeHtml(
-    siteConfig.email
-  )}</a><br />
-                <a href="${escapeHtml(
+              ${
+                params.isSummary
+                  ? `<h2 style="margin:18px 0 10px;font-size:15px;color:#15304C;">Seçtiğiniz Paket ve Modüller</h2>
+              ${modulesTableHtml}
+              ${financialCardHtml}`
+                  : `<div style="margin:16px 0;">
+                <a class="tp-btn" href="${escapeHtml(
                   siteConfig.siteUrl
-                )}" style="color:#2457D6;text-decoration:none;">${escapeHtml(
+                )}/sistemini-olustur" style="display:inline-block;background:#F2A900;color:#15304C;text-decoration:none;font-weight:700;font-size:14px;line-height:1.2;padding:12px 18px;border-radius:8px;">Sistemini Oluştur ve Fiyat Gör</a>
+              </div>`
+              }
+
+              <h3 style="margin:22px 0 6px;font-size:15px;color:#15304C;">Geçiş Takvimi</h3>
+              <p style="margin:0 0 12px;font-size:13px;line-height:1.5;color:#5A6472;">${escapeHtml(
+                MIGRATION_SLA_TEXT
+              )}</p>
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                ${timelineHtml}
+              </table>
+
+              <div style="margin-top:18px;">
+                <a class="tp-btn" href="${turpilotWaHref}" style="display:inline-block;background:#1E7A46;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:13px;line-height:1.2;padding:11px 16px;border-radius:8px;margin:0 8px 8px 0;">WhatsApp&apos;tan Yaz</a>
+                <a class="tp-btn" href="tel:+908508853455" style="display:inline-block;background:#2457D6;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:13px;line-height:1.2;padding:11px 16px;border-radius:8px;margin:0 0 8px 0;">${escapeHtml(
+                  siteConfig.phoneDisplay
+                )}</a>
+              </div>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-top:14px;border-top:1px solid #E8ECF2;">
+                <tr>
+                  <td style="padding-top:14px;font-size:12px;color:#5A6472;line-height:1.7;">
+                    <strong style="color:#15304C;">TurPilot</strong> · Otobüslü tur acenteleri için operasyon programı<br />
+                    <a href="tel:+908508853455" style="color:#2457D6;text-decoration:none;">${escapeHtml(
+                      siteConfig.phoneDisplay
+                    )}</a> · <a href="mailto:${escapeHtml(
+    siteConfig.email
+  )}" style="color:#2457D6;text-decoration:none;">${escapeHtml(
+    siteConfig.email
+  )}</a> · <a href="${escapeHtml(
+    siteConfig.siteUrl
+  )}" style="color:#2457D6;text-decoration:none;">${escapeHtml(
     siteConfig.domain
   )}</a>
-              </td>
-            </tr>
-          </table>
-          </td>
-        </tr>`;
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>`;
 
   const customerHtml = wrapHtml(
     customerInner,
-    `${params.agencyName} için paket özetiniz ve görüşme talebiniz alındı.`
+    params.isSummary
+      ? `${params.agencyName} için paket özetiniz ve görüşme talebiniz alındı.`
+      : `${params.agencyName} için görüşme talebiniz alındı.`
   );
 
   const customerText = [
     `Merhaba ${params.contactName},`,
-    `${params.agencyName} için oluşturduğunuz TurPilot sistem özeti ve görüşme talebiniz alındı (Referans: ${params.referenceId}).`,
+    params.isSummary
+      ? `${params.agencyName} için oluşturduğunuz TurPilot sistem özeti ve görüşme talebiniz alındı (Referans: ${params.referenceId}).`
+      : `${params.agencyName} için ilettiğiniz TurPilot görüşme talebiniz alındı (Referans: ${params.referenceId}).`,
     `Ekibimiz en kısa sürede ${params.phone} numarasından sizinle iletişime geçecektir.`,
-    "",
-    "Seçilen Modüller:",
-    moduleTextList,
-    "- Kurulum ve Excel veri aktarımı: Dahil (Ücretsiz)",
-    "",
-    `Ara toplam (KDV hariç): ${formatTry(totals.subtotal)} / yıl`,
-    `KDV (%20): ${formatTry(totals.vatAmount)}`,
-    `KDV dahil yıllık toplam: ${formatTry(totals.grandTotal)} / yıl`,
+    ...(params.isSummary
+      ? [
+          "",
+          "Seçilen Modüller:",
+          moduleTextList,
+          "- Kurulum ve Excel veri aktarımı: Dahil (Ücretsiz)",
+          "",
+          `Ara toplam (KDV hariç): ${formatTry(totals.subtotal)} / yıl`,
+          `KDV (%${vatPct}): ${formatTry(totals.vatAmount)}`,
+          `KDV dahil yıllık toplam: ${formatTry(totals.grandTotal)} / yıl`,
+        ]
+      : []),
     "",
     MIGRATION_SLA_TEXT,
     `İletişim: ${siteConfig.phoneDisplay} · ${siteConfig.email}`,
